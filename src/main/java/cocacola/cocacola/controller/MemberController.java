@@ -16,8 +16,11 @@
  */
 package cocacola.cocacola.controller;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -30,7 +33,9 @@ import javax.inject.Named;
 
 import org.br.maymone.projetococacola.model.Member;
 import org.br.maymone.projetococacola.model.filhos.Video1;
-import org.br.maymone.projetococaola.mvc.businnes.FacebookManager;
+import org.br.maymone.projetococacola.mvc.businnes.FacebookManager;
+import org.br.maymone.projetococacola.mvc.businnes.YouTubeManager;
+import org.br.maymone.projetococacola.util.GeradorPosicoes;
 
 import cocacola.cocacola.service.MemberRegistration;
 
@@ -41,85 +46,126 @@ import cocacola.cocacola.service.MemberRegistration;
 @Model
 public class MemberController {
 
-    @Inject
-    private FacesContext facesContext;
-    
-    @Inject
-    private Logger log;
+	@Inject
+	private FacesContext facesContext;
+	
+	@Inject YouTubeManager youtubeManager;
 
-    @Inject
-    private MemberRegistration memberRegistration;
+	@Inject
+	private Logger log;
 
-    @Produces
-    @Named
-    private Member newMember;
-    
-    @Inject
-    FacebookManager facebookManager;
+	@Inject
+	private MemberRegistration memberRegistration;
 
-    @PostConstruct
-    public void initNewMember() {
-        newMember = new Member();
-    }
+	@Produces
+	@Named
+	private Member newMember;
 
-    public void register() throws Exception {
-        try {
-            memberRegistration.register(newMember);
-            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful");
-            facesContext.addMessage(null, m);
-            initNewMember();
-        } catch (Exception e) {
-            String errorMessage = getRootErrorMessage(e);
-            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, "Registration unsuccessful");
-            facesContext.addMessage(null, m);
-        }
-    }
+	@Inject
+	FacebookManager facebookManager;
 
-    private String getRootErrorMessage(Exception e) {
-        // Default to general error message that registration failed.
-        String errorMessage = "Registration failed. See server log for more information";
-        if (e == null) {
-            // This shouldn't happen, but return the default messages
-            return errorMessage;
-        }
+	@PostConstruct
+	public void initNewMember() {
+		newMember = new Member();
+	}
 
-        // Start with the exception and recurse to find the root cause
-        Throwable t = e;
-        while (t != null) {
-            // Get the message from the Throwable class instance
-            errorMessage = t.getLocalizedMessage();
-            t = t.getCause();
-        }
-        // This is the root cause message
-        return errorMessage;
-    }
+	public void register() throws Exception {
+		try {
+			memberRegistration.register(newMember);
+			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Registered!", "Registration successful");
+			facesContext.addMessage(null, m);
+			initNewMember();
+		} catch (Exception e) {
+			String errorMessage = getRootErrorMessage(e);
+			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					errorMessage, "Registration unsuccessful");
+			facesContext.addMessage(null, m);
+		}
+	}
 
-    public void teste() throws FileNotFoundException{
-    	
-    	 log.info("Testando " );
-    	
-    	log.info("Olar");
-    	
-    	 try {
-			Video1 video = new Video1("13", "Zagalo");
-			video.gerarVideo();
+	private String getRootErrorMessage(Exception e) {
+		// Default to general error message that registration failed.
+		String errorMessage = "Registration failed. See server log for more information";
+		if (e == null) {
+			// This shouldn't happen, but return the default messages
+			return errorMessage;
+		}
+
+		// Start with the exception and recurse to find the root cause
+		Throwable t = e;
+		while (t != null) {
+			// Get the message from the Throwable class instance
+			errorMessage = t.getLocalizedMessage();
+			t = t.getCause();
+		}
+		// This is the root cause message
+		return errorMessage;
+	}
+
+	public void teste() throws FileNotFoundException {
+		log.info("Testando ");
+
+		log.info("Olar");
+
+		/*InputStream in = Thread.currentThread().getContextClassLoader()
+				.getResourceAsStream("timeline/video1");*/
+		
+		try {
+			Video1 v = new Video1("olar", "Marilia boba");
+			v.gerarVideo();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			GeradorPosicoes g = new GeradorPosicoes(1);
+			testarBuffered(g.getUrlArquivoPropriedades());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			log.info(e.getMessage());
-			
+			e.printStackTrace();
 		}
-    	 
-    	
-    	
-    	
-		 
-		 
-				
+			
 		
-    	 
-    	 
-         
-         
-    	
-    }
-}
+		
+	
+
+	}
+
+	public void testarBuffered(InputStream in) {
+		
+		
+		
+		
+		
+		BufferedReader br = null;
+		StringBuilder sb = new StringBuilder();
+ 
+		String line;
+		try {
+ 
+			br = new BufferedReader(new InputStreamReader(in));
+			while ((line = br.readLine()) != null) {
+				//sb.append(line);
+				log.info(line);
+			}
+ 
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+ 
+		
+ 
+	}
+		
+
+	}
+

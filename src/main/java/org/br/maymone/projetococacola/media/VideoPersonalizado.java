@@ -7,8 +7,8 @@ import java.nio.ShortBuffer;
 import java.util.Random;
 
 import org.br.maymone.projetococacola.model.CocaCola;
+import org.br.maymone.projetococacola.mvc.businnes.FacebookManager;
 import org.br.maymone.projetococacola.util.TextToImage;
-import org.br.maymone.projetococaola.mvc.businnes.FacebookManager;
 
 import com.xuggle.mediatool.IMediaReader;
 import com.xuggle.mediatool.IMediaTool;

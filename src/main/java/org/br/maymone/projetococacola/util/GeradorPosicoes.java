@@ -7,6 +7,8 @@ import java.io.EOFException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class GeradorPosicoes {
@@ -15,13 +17,15 @@ public class GeradorPosicoes {
 	
 	
 	
-	private static String urlArquivoPropriedades;
+	private static InputStream urlArquivoPropriedades;
 	private static ArrayList<DadosImagem> dadosImagem;
 
 	public GeradorPosicoes(Integer idVideo) throws Exception {
 
-		String pastaArquivo = "timeline/video";
-		this.urlArquivoPropriedades = pastaArquivo + idVideo;
+		InputStream in = Thread.currentThread().getContextClassLoader()
+				.getResourceAsStream("timeline/video"+ idVideo);
+		
+		urlArquivoPropriedades = in;
 		dadosImagem = new ArrayList<DadosImagem>();
 		
 		//logger.debug("Olar");
@@ -29,15 +33,23 @@ public class GeradorPosicoes {
 
 	}
 
+	public static InputStream getUrlArquivoPropriedades() {
+		return urlArquivoPropriedades;
+	}
+
+	public static void setUrlArquivoPropriedades(InputStream urlArquivoPropriedades) {
+		GeradorPosicoes.urlArquivoPropriedades = urlArquivoPropriedades;
+	}
+
 	public void read() throws Exception {
-		File file = new File(urlArquivoPropriedades);
+		
+		
+		
+		InputStreamReader reader = new InputStreamReader(urlArquivoPropriedades);
 
-		if (!file.exists()) {
-			throw new FileNotFoundException(file.getAbsolutePath()
-					+ " does not exist");
-		}
+		
 
-		BufferedReader br = new BufferedReader(new FileReader(file));
+		BufferedReader br = new BufferedReader(reader);
 		String s = "";
 		
 		while (s != null) {
@@ -93,13 +105,6 @@ public class GeradorPosicoes {
 	
 	
 
-	public static String getUrlArquivoPropriedades() {
-		return urlArquivoPropriedades;
-	}
-
-	public static void setUrlArquivoPropriedades(String urlArquivoPropriedades) {
-		GeradorPosicoes.urlArquivoPropriedades = urlArquivoPropriedades;
-	}
 
 	public static ArrayList<DadosImagem> getDadosImagem() {
 		return dadosImagem;

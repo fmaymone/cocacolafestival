@@ -44,6 +44,8 @@ public class Video1 extends VideoGerado {
 		GeradorPosicoes g = getgPosicoes();
 		// abrir o video original
 		// create a media reader
+		
+		
 		IMediaReader mediaReader = ToolFactory.makeReader(prop
 				.getUrlVideosRespostas()[0]);
 

@@ -1,4 +1,4 @@
-package org.br.maymone.projetococaola.mvc.businnes;
+package org.br.maymone.projetococacola.mvc.businnes;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
