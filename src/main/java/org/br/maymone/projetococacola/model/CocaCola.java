@@ -1,5 +1,6 @@
 package org.br.maymone.projetococacola.model;
 
+import java.io.File;
 import java.util.Calendar;
 
 import javax.persistence.Column;
@@ -8,7 +9,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -158,6 +158,19 @@ public class CocaCola {
 		this.status = status;
 	}
 
+	
+	//retorna o path dos videos
+	public String getPathVideos(){
+		
+		String retorno = "";
+		
+		ClassLoader classLoader = getClass().getClassLoader();
+		retorno = classLoader.getResource("temp/" + getNome() + "/").getPath();
+		
+		return retorno;
+		
+		
+	}
 
 
 

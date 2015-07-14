@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import org.br.maymone.projetococacola.model.filhos.Video1;
 import org.br.maymone.projetococacola.model.filhos.Video2;
+import org.br.maymone.projetococacola.model.filhos.Video3;
 import org.br.maymone.projetococacola.util.GeradorPosicoes;
 
 import com.xuggle.mediatool.IMediaReader;
@@ -105,7 +106,17 @@ public class VideoGerado {
 
 			break;
 		case 3:
-			System.out.println("Terça-feira");
+			//log.info("Gerando video 1");
+
+			try {
+				Video3 video;
+				video = new Video3(cocaCola);
+				video.gerar();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 			break;
 		case 4:
 			System.out.println("Quarta-feira");

@@ -2,6 +2,7 @@ package org.br.maymone.projetococacola.mvc.businnes;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import org.br.maymone.projetococacola.media.Concatenate;
 import org.br.maymone.projetococacola.model.CocaCola;
 import org.br.maymone.projetococacola.model.VideoGerado;
 import org.br.maymone.projetococacola.util.DadosImagem;
@@ -21,6 +23,7 @@ import com.xuggle.mediatool.IMediaTool;
 import com.xuggle.mediatool.IMediaWriter;
 import com.xuggle.mediatool.MediaToolAdapter;
 import com.xuggle.mediatool.ToolFactory;
+import com.xuggle.mediatool.demos.ConcatenateAudioAndVideo;
 import com.xuggle.mediatool.event.IVideoPictureEvent;
 import com.xuggle.xuggler.ICodec;
 import com.xuggle.xuggler.IContainer;
@@ -35,6 +38,9 @@ public class VideoManager {
 	private static IMediaWriter mediaWriter;
 	@Inject
 	private static Propriedades prop;
+	
+	private static
+	Integer numCenas;
 
 	public FacebookManager getFacebookManager() {
 		return facebookManager;
@@ -62,7 +68,8 @@ public class VideoManager {
 		//LinkedHashSet<VideoGerado> listaVideosGerados = new LinkedHashSet<VideoGerado>();
 		Propriedades prop = new Propriedades();
 
-		Integer numCenas = prop.getNumeroCenas();
+		this.setCocaCola(c);
+		numCenas = prop.getNumeroCenas();
 
 		// pra cada cena vou gerar o video
 		for (int i = 0; i < numCenas.intValue(); i++) {
@@ -75,7 +82,17 @@ public class VideoManager {
 			temp.gerar(i+1);
 
 		}
+		
+		concatenarVideos();
 
+	}
+
+	public static Integer getNumCenas() {
+		return numCenas;
+	}
+
+	public static void setNumCenas(Integer numCenas) {
+		VideoManager.numCenas = numCenas;
 	}
 
 	public VideoManager() {
@@ -83,6 +100,31 @@ public class VideoManager {
 		
 		
 
+	}
+	
+	public void concatenarVideos(){
+		
+		//pega o numero de cenas
+		int numCenas = getNumCenas().intValue();
+		
+		Concatenate conc = new Concatenate();
+		
+		int tempContador = 3;
+		
+		//vê se é impar (vou trabalhar com 3 como exemplo)
+		try {
+			conc.concatenar(1, 2, getCocaCola());
+			conc.concatenar(12, 3, getCocaCola());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		
+		
 	}
 
 	// metodo para testes somente

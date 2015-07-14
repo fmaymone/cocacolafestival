@@ -51,11 +51,14 @@ public class Video1 extends VideoGerado {
 		
 		
 		
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource(prop.getProp().getProperty("prop.pergunta.1.resposta")).getPath());
+		
+		
 		//IMediaReader mediaReader = ToolFactory.makeReader(prop
 			//	.getUrlVideosRespostas()[0]);
-		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(classLoader.getResource("videos/cena1.mov").getPath());
-		URL in = Thread.currentThread().getContextClassLoader().getResource("videos/cena1.mov");
+		
+		
 		
 		IMediaReader mediaReader = ToolFactory.makeReader(file.getAbsolutePath());
 
