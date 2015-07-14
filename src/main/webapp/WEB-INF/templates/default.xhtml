@@ -22,30 +22,20 @@
 <h:head>
     <title>${artifactId}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <h:outputStylesheet name="css/screen.css" />
+    <h:outputStylesheet name="/bootstrap/css/bootstrap.css" />
 </h:head>
 <h:body>
     <div id="container">
-        <div class="dualbrand">
-            <img src="resources/gfx/rhjb_eap_logo.png" />
-        </div>
+        
         <div id="content">
             <ui:insert name="content">
                     [Template content will be inserted here]
          </ui:insert>
         </div>
-        <div id="aside">
-            <p>Learn more about JBoss Enterprise Application
-                Platform 6.</p>
-            <ul>
-                <li><a href="https://access.redhat.com/site/documentation/JBoss_Enterprise_Application_Platform/">Documentation</a></li>
-                <li><a href="http://red.ht/jbeap-6">Product Information</a></li>
-            </ul>
-        </div>
+        
         <div id="footer">
             <p>
-                This project was generated from a Maven archetype from
-                JBoss.<br />
+                <br />
             </p>
         </div>
     </div>

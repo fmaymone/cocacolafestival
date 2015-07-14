@@ -17,10 +17,13 @@
 package cocacola.cocacola.controller;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -31,11 +34,13 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.br.maymone.projetococacola.model.CocaCola;
+import org.br.maymone.projetococacola.model.CocaCola.Status;
 import org.br.maymone.projetococacola.model.Member;
 import org.br.maymone.projetococacola.model.filhos.Video1;
-import org.br.maymone.projetococacola.mvc.businnes.FacebookManager;
+import org.br.maymone.projetococacola.mvc.businnes.CocaColaManager;
+import org.br.maymone.projetococacola.mvc.businnes.VideoManager;
 import org.br.maymone.projetococacola.mvc.businnes.YouTubeManager;
-import org.br.maymone.projetococacola.util.GeradorPosicoes;
 
 import cocacola.cocacola.service.MemberRegistration;
 
@@ -50,6 +55,10 @@ public class MemberController {
 	private FacesContext facesContext;
 	
 	@Inject YouTubeManager youtubeManager;
+	
+	@Inject CocaColaManager cocaManager;
+	
+	@Inject VideoManager videoManager;
 
 	@Inject
 	private Logger log;
@@ -60,22 +69,33 @@ public class MemberController {
 	@Produces
 	@Named
 	private Member newMember;
+	
+	@Produces
+	@Named
+	private CocaCola cocaCola;
 
-	@Inject
-	FacebookManager facebookManager;
+
 
 	@PostConstruct
 	public void initNewMember() {
 		newMember = new Member();
 	}
+	
+
 
 	public void register() throws Exception {
 		try {
-			memberRegistration.register(newMember);
+			 Calendar cal = Calendar.getInstance();
+			  Date date = cal.getTime();
+			CocaCola c = new CocaCola(cal,"asdasdasdasd","url1", "token2	");
+				
+			
+			
+			memberRegistration.register(c);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Registered!", "Registration successful");
 			facesContext.addMessage(null, m);
-			initNewMember();
+			
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -105,31 +125,56 @@ public class MemberController {
 
 	public void teste() throws FileNotFoundException {
 		log.info("Testando ");
-
-		log.info("Olar");
-
-		/*InputStream in = Thread.currentThread().getContextClassLoader()
-				.getResourceAsStream("timeline/video1");*/
+		
+		CocaCola coca = new CocaCola();
+		 Calendar cal = Calendar.getInstance();
+		  Date date = cal.getTime();
+		CocaCola c = new CocaCola(cal,"asdasdasdasd","url1", "Lennon", null, Status.RECEBIDA);
+		
 		
 		try {
-			Video1 v = new Video1("olar", "Marilia boba");
+			videoManager.gerarVideos(c);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	
+
+	}
+	
+	public void testarArquivo(){
+		
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource("nando.txt").getPath());
+		log.info(file.getAbsolutePath());
+		
+		
+	}
+	
+	public void gerarVideoTeste(){
+		
+
+		try {
+			Video1 v = new Video1("39", "Nando belo");
 			v.gerarVideo();
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		try {
-			GeradorPosicoes g = new GeradorPosicoes(1);
-			testarBuffered(g.getUrlArquivoPropriedades());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-			
 		
 		
+	}
 	
-
+	public void inserirElemento(){
+		
+		 Calendar cal = Calendar.getInstance();
+		  Date date = cal.getTime();
+		CocaCola c = new CocaCola(cal,"respostas","url", "token");
+		
+		cocaManager.salvarUsuario(c);
+		
+		
 	}
 
 	public void testarBuffered(InputStream in) {

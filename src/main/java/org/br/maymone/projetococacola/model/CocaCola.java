@@ -4,15 +4,31 @@ import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
 public class CocaCola {
 	
-	 public CocaCola(){}
+	 public CocaCola(Calendar dataCriacao, String respostas,
+			String urlVideo, String nome, byte[] image, Status status) {
+		super();
+		
+		this.dataCriacao = dataCriacao;
+		this.respostas = respostas;
+		this.urlVideo = urlVideo;
+		this.nome = nome;
+		this.image = image;
+		this.status = status;
+	}
+
+
+	public CocaCola(){}
 	
 	private static FacebookUser facebookUser;
 	 	
@@ -34,7 +50,7 @@ public class CocaCola {
 	public String toString() {
 		return "CocaCola [id=" + id + ", dataCriacao=" + dataCriacao
 				+ ", respostas=" + respostas + ", urlVideo=" + urlVideo
-				+ ", tokenFacebook=" + tokenFacebook + "]";
+				+ ", tokenFacebook=" + nome + "]";
 	}
 
 
@@ -45,7 +61,7 @@ public class CocaCola {
 		this.dataCriacao = dataCriacao;
 		this.respostas = respostas;
 		this.urlVideo = urlVideo;
-		this.tokenFacebook = tokenFacebook;
+		this.nome = tokenFacebook;
 	}
 
 
@@ -81,13 +97,6 @@ public class CocaCola {
 		this.urlVideo = urlVideo;
 	}
 
-	public String getTokenFacebook() {
-		return tokenFacebook;
-	}
-
-	public void setTokenFacebook(String tokenFacebook) {
-		this.tokenFacebook = tokenFacebook;
-	}
 
 
 	
@@ -106,12 +115,56 @@ public class CocaCola {
 	private String urlVideo;
 
 	@Column
-	private String tokenFacebook;
+	private String nome;
+	
+	
+    @Column(name="image", nullable=true)
+    private byte[] image;
+	
+	
+	@Enumerated(EnumType.ORDINAL)
+    private Status status;
 
 
 
 
 	
+	public String getNome() {
+		return nome;
+	}
+
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+
+	public byte[] getImage() {
+		return image;
+	}
+
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+
+
+	public Status getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+
+
+
+
+	public enum Status {
+	    RECEBIDA, PROCESSANDO, CONCLUIDA, FINALIZADA, CANCELADA, PROBLEMA
+	}
 	
 
 

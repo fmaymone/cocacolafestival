@@ -3,6 +3,7 @@ package org.br.maymone.projetococacola.model.filhos;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import org.br.maymone.projetococacola.util.DadosImagem;
 import org.br.maymone.projetococacola.util.GeradorPosicoes;
 import org.br.maymone.projetococacola.util.Propriedades;
 import org.br.maymone.projetococacola.util.TextToImage;
+import org.mortbay.log.Log;
 
 import com.xuggle.mediatool.IMediaReader;
 import com.xuggle.mediatool.IMediaTool;
@@ -25,7 +27,8 @@ public class Video1 extends VideoGerado {
 	private String idVideoTemp;
 
 	public Video1(String idUsuario, String nomeGerar) throws Exception {
-		this.setIdVideo(1);
+		
+		super.setIdVideo(1);
 		this.setgPosicoes(new GeradorPosicoes(1));
 		this.nomeGerar = nomeGerar;
 		this.idVideoTemp = idUsuario;
@@ -37,7 +40,7 @@ public class Video1 extends VideoGerado {
 	}
 
 	@Override
-	public void gerarVideo() throws Exception {
+	public void gerar() throws Exception {
 
 		Propriedades prop = new Propriedades();
 		// pegar as posicoes
@@ -46,8 +49,15 @@ public class Video1 extends VideoGerado {
 		// create a media reader
 		
 		
-		IMediaReader mediaReader = ToolFactory.makeReader(prop
-				.getUrlVideosRespostas()[0]);
+		
+		
+		//IMediaReader mediaReader = ToolFactory.makeReader(prop
+			//	.getUrlVideosRespostas()[0]);
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource("videos/cena1.mov").getPath());
+		URL in = Thread.currentThread().getContextClassLoader().getResource("videos/cena1.mov");
+		
+		IMediaReader mediaReader = ToolFactory.makeReader(file.getAbsolutePath());
 
 		
 		// configure it to generate BufferImages
@@ -56,13 +66,18 @@ public class Video1 extends VideoGerado {
 
 		//System.out.println()
 		String folderBase = prop.getProp().getProperty("prop.video.pasta.temp");
-				
-		boolean success = (new File(folderBase + idVideoTemp)).mkdirs();
+		
+		
+		File folder = new File(classLoader.getResource("temp/").getPath());		
+		
+		boolean success = (new File(folder.getAbsolutePath() + "/" + idVideoTemp)).mkdirs();
 		if (!success) {
 			System.out.println("Erro ao criar folder");
 		}
 		
-		String urlTemp = folderBase +  idVideoTemp + "/"+"video1.mp4"; 
+		Log.info("Pasta temporária: "+ folder.getAbsolutePath() + "/" + idVideoTemp);
+		
+		String urlTemp = folder.getAbsolutePath() +  "/"+ idVideoTemp + "/"+"video1.mp4"; 
 
 		IMediaWriter mediaWriter = ToolFactory.makeWriter(urlTemp, mediaReader);
 

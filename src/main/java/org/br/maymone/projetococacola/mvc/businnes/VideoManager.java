@@ -2,15 +2,15 @@ package org.br.maymone.projetococacola.mvc.businnes;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+
 import org.br.maymone.projetococacola.model.CocaCola;
 import org.br.maymone.projetococacola.model.VideoGerado;
-import org.br.maymone.projetococacola.model.filhos.Video1;
-import org.br.maymone.projetococacola.model.filhos.Video2;
 import org.br.maymone.projetococacola.util.DadosImagem;
 import org.br.maymone.projetococacola.util.GeradorPosicoes;
 import org.br.maymone.projetococacola.util.Propriedades;
@@ -28,10 +28,12 @@ import com.xuggle.xuggler.IStream;
 import com.xuggle.xuggler.IStreamCoder;
 
 
+@Stateless
 public class VideoManager {
 
 	
 	private static IMediaWriter mediaWriter;
+	@Inject
 	private static Propriedades prop;
 
 	public FacebookManager getFacebookManager() {
@@ -42,13 +44,23 @@ public class VideoManager {
 		this.facebookManager = facebookManager;
 	}
 
+	private static CocaCola cocaCola;
+	public static CocaCola getCocaCola() {
+		return cocaCola;
+	}
+
+	public static void setCocaCola(CocaCola cocaCola) {
+		VideoManager.cocaCola = cocaCola;
+	}
+
 	private FacebookManager facebookManager;
 
 	public void gerarVideos(CocaCola c) throws Exception {
 
 		// FacebookUser fbu = c.getFacebookUser();
 
-		LinkedHashSet<VideoGerado> listaVideosGerados = new LinkedHashSet<VideoGerado>();
+		//LinkedHashSet<VideoGerado> listaVideosGerados = new LinkedHashSet<VideoGerado>();
+		Propriedades prop = new Propriedades();
 
 		Integer numCenas = prop.getNumeroCenas();
 
@@ -56,10 +68,11 @@ public class VideoManager {
 		for (int i = 0; i < numCenas.intValue(); i++) {
 
 			VideoGerado temp = new VideoGerado();
-			temp.setIdVideo(new Integer(i + 1));
 			GeradorPosicoes g = new GeradorPosicoes(i + 1);
 			temp.setgPosicoes(g);
-			gerar(i + 1);
+			temp.setCocaCola(c);
+			temp.setIdUsuario(new Integer(100 + i).toString());
+			temp.gerar(i+1);
 
 		}
 
@@ -67,16 +80,8 @@ public class VideoManager {
 
 	public VideoManager() {
 
-		System.out.println("Inicio Video Manager");
-		prop = new Propriedades();
-		try {
-			facebookManager = new FacebookManager(
-					"CAACEdEose0cBAIEI4zzjCXKPVleFEw5VBAf6Xc8fNaeUqgx72msF2wJt1FHzywBsKti5ssgn33igRi2PheXM6XjrKu9jfDD1WitvXYsBHoIZCRpZAjToq0tnfz81X2j4EOkyIA75fDz7WRCZBdkXNRfZCZAvDVTAOfynyRKZAzkHYtE0aqKwjyis6gLl1n9ltjZAaOXo7oVACYPZBcbZBW33E",
-					true);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		
 
 	}
 
@@ -175,22 +180,7 @@ public class VideoManager {
 
 
 
-	public void gerar(int idVideo) throws Exception {
 
-		VideoGerado video;
-		switch (idVideo) {
-
-		case 1:
-
-			video = new Video1(facebookManager.getUser().getId(), facebookManager.getUser().getName());
-			break;
-
-		case 2:
-			video = new Video2(facebookManager.getUser().getId(), facebookManager.getUser().getName());
-		}
-		
-		
-	}
 
 	// video com o nome do cara
 	public void gerarVideo1() throws Exception {

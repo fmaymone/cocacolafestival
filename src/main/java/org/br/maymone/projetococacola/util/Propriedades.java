@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Properties;
 
+import javax.ejb.Stateless;
+
+@Stateless
 public class Propriedades {
 	private String login;
 	private String host;

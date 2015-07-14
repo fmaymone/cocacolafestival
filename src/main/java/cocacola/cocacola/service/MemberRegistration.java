@@ -21,6 +21,7 @@ import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+import org.br.maymone.projetococacola.model.CocaCola;
 import org.br.maymone.projetococacola.model.Member;
 
 import java.util.logging.Logger;
@@ -43,4 +44,10 @@ public class MemberRegistration {
         em.persist(member);
         memberEventSrc.fire(member);
     }
+    public void register(CocaCola member) throws Exception {
+        log.info("Registering " + member.getRespostas());
+        em.persist(member);
+        
+    }
 }
+
