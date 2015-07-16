@@ -85,7 +85,7 @@ public class Video2 extends VideoGerado {
 
 	IMediaWriter mediaWriter = ToolFactory.makeWriter(urlTemp, mediaReader);
 
-	String nomeGerado = "Video2";
+	String nomeGerado = super.getCocaCola().getNome();
 
 	IMediaTool imageMediaTool = new StaticImageMediaTool(nomeGerado);
 	// Adicionou um listener com a imagem estatica

@@ -19,6 +19,7 @@ package cocacola.cocacola.controller;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -33,6 +34,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.Part;
 
 import org.br.maymone.projetococacola.model.CocaCola;
 import org.br.maymone.projetococacola.model.CocaCola.Status;
@@ -44,6 +46,8 @@ import org.br.maymone.projetococacola.mvc.businnes.YouTubeManager;
 
 import cocacola.cocacola.service.MemberRegistration;
 
+
+
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
 // Read more about the @Model stereotype in this FAQ:
@@ -53,12 +57,15 @@ public class MemberController {
 
 	@Inject
 	private FacesContext facesContext;
-	
-	@Inject YouTubeManager youtubeManager;
-	
-	@Inject CocaColaManager cocaManager;
-	
-	@Inject VideoManager videoManager;
+
+	@Inject
+	YouTubeManager youtubeManager;
+
+	@Inject
+	CocaColaManager cocaManager;
+
+	@Inject
+	VideoManager videoManager;
 
 	@Inject
 	private Logger log;
@@ -69,33 +76,33 @@ public class MemberController {
 	@Produces
 	@Named
 	private Member newMember;
-	
+
 	@Produces
 	@Named
 	private CocaCola cocaCola;
 
-
+	@Produces
+	@Named
+	private Part imagem;
 
 	@PostConstruct
 	public void initNewMember() {
 		newMember = new Member();
+		cocaCola = new CocaCola();
+		
 	}
-	
-
 
 	public void register() throws Exception {
 		try {
-			 Calendar cal = Calendar.getInstance();
-			  Date date = cal.getTime();
-			CocaCola c = new CocaCola(cal,"asdasdasdasd","url1", "token2	");
-				
-			
-			
+			Calendar cal = Calendar.getInstance();
+			Date date = cal.getTime();
+			CocaCola c = new CocaCola(cal, "asdasdasdasd", "url1", "token2	");
+
 			memberRegistration.register(c);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Registered!", "Registration successful");
 			facesContext.addMessage(null, m);
-			
+
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -125,76 +132,71 @@ public class MemberController {
 
 	public void teste() throws FileNotFoundException {
 		log.info("Testando ");
+
 		
 		CocaCola coca = new CocaCola();
-		 Calendar cal = Calendar.getInstance();
-		  Date date = cal.getTime();
-		CocaCola c = new CocaCola(cal,"asdasdasdasd","url1", "Paul", null, Status.RECEBIDA);
+		Calendar cal = Calendar.getInstance();
+		Date date = cal.getTime();
+		CocaCola c = new CocaCola(cal, "asdasdasdasd", "url1", "Paul", null,
+				Status.RECEBIDA);
 		
-		
+		c.setCor(cocaCola.getCor());
+		c.setNome(cocaCola.getNome());
+		c.setSexo(cocaCola.getSexo());
+		System.out.println(cocaCola.toString());
 		try {
-			videoManager.gerarVideos(c);
+			 videoManager.gerarVideos(c);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-	
 
 	}
-	
-	public void testarArquivo(){
-		
+
+	public void testarArquivo() {
+
 		ClassLoader classLoader = getClass().getClassLoader();
 		File file = new File(classLoader.getResource("nando.txt").getPath());
 		log.info(file.getAbsolutePath());
-		
-		
+
 	}
-	
-	public void gerarVideoTeste(){
-		
+
+	public void gerarVideoTeste() {
 
 		try {
-			Video1 v = new Video1("39", "Nando belo");
+			Video1 v = new Video1();
 			v.gerarVideo();
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-		
+
 	}
-	
-	public void inserirElemento(){
-		
-		 Calendar cal = Calendar.getInstance();
-		  Date date = cal.getTime();
-		CocaCola c = new CocaCola(cal,"respostas","url", "token");
-		
+
+	public void inserirElemento() {
+
+		Calendar cal = Calendar.getInstance();
+		Date date = cal.getTime();
+		CocaCola c = new CocaCola(cal, "respostas", "url", "token");
+
 		cocaManager.salvarUsuario(c);
-		
-		
+
 	}
 
 	public void testarBuffered(InputStream in) {
-		
-		
-		
-		
-		
+
 		BufferedReader br = null;
 		StringBuilder sb = new StringBuilder();
- 
+
 		String line;
 		try {
- 
+
 			br = new BufferedReader(new InputStreamReader(in));
 			while ((line = br.readLine()) != null) {
-				//sb.append(line);
+				// sb.append(line);
 				log.info(line);
 			}
- 
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -206,11 +208,36 @@ public class MemberController {
 				}
 			}
 		}
- 
-		
- 
-	}
-		
 
 	}
+	
+	public void upload(){
+		 
+		InputStream inputStream;
+		try {
+			inputStream = imagem.getInputStream();
+			FileOutputStream outputStream = new FileOutputStream("tempIm");  
+	          
+	        byte[] buffer = new byte[4096];          
+	        int bytesRead = 0;  
+	        while(true) {                          
+	            bytesRead = inputStream.read(buffer);  
+	            if(bytesRead > 0) {  
+	                outputStream.write(buffer, 0, bytesRead);  
+	            }else {  
+	                break;  
+	            }                         
+	        }  
+	        outputStream.close();  
+	        inputStream.close();  
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}          
+        
+         
+         
+    }
 
+
+}

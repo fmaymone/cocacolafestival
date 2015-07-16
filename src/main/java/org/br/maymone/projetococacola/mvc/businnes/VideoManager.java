@@ -2,7 +2,9 @@ package org.br.maymone.projetococacola.mvc.businnes;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -84,6 +86,19 @@ public class VideoManager {
 		}
 		
 		concatenarVideos();
+		YouTubeManager ytm = new YouTubeManager();
+		
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource("temp/").getPath());		
+		String base = file.getAbsolutePath();
+
+		String source1 = base + "\\" + c.getNome()+ "\\" + "video123456"
+				+ prop.getProp().getProperty("prop.formato.video.input");
+		
+		InputStream videoPublicar = classLoader.getResourceAsStream("temp" + "\\" + c.getNome() + "\\" + "video123456.mp4");
+				
+			
+		ytm.publicarVideo(videoPublicar);
 
 	}
 

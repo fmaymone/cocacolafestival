@@ -15,7 +15,7 @@ import org.br.maymone.projetococacola.util.GeradorPosicoes;
 
 import com.xuggle.mediatool.IMediaReader;
 
-@Stateless
+
 public class VideoGerado {
 
 	// se o video eh o 1,2,3 da lista
@@ -86,8 +86,7 @@ public class VideoGerado {
 
 			try {
 				Video1 video;
-				video = new Video1(cocaCola.getNome(),
-						cocaCola.getNome());
+				video = new Video1();
 				video.gerar();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

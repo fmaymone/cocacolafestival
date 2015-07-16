@@ -14,6 +14,8 @@ import org.br.maymone.projetococacola.model.CocaCola.Status;
 import org.br.maymone.projetococacola.util.Propriedades;
 import org.mortbay.log.Log;
 
+import com.google.api.client.json.Json;
+import com.google.gson.Gson;
 import com.xuggle.mediatool.IMediaReader;
 import com.xuggle.mediatool.IMediaWriter;
 import com.xuggle.mediatool.ToolFactory;
@@ -156,6 +158,20 @@ public class CocaColaManager {
 		
 		
 		
+	}
+	
+	public String enviarDadosUsuario(){
+		
+		CocaCola coca = new CocaCola();
+		Gson gson = new Gson();
+		
+		
+		String aux = "{\"respostas\":\"Respostas NAndo\",\"nome\":Nando }";
+		
+		coca = gson.fromJson(aux, CocaCola.class);
+		
+		System.out.println(coca.toString());
+		return "Olar enviarDAdos";
 	}
 
 }

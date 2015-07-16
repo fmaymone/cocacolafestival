@@ -67,31 +67,46 @@ public class Concatenate {
 		Propriedades prop = new Propriedades();
 
 		String retorno = "";
+		
+		
+				
+		ClassLoader classLoader = getClass().getClassLoader();
+		
+		File file = new File(classLoader.getResource("temp/").getPath());		
+		
+		String base = file.getAbsolutePath();
 
-		File source1 = new File(coca.getPathVideos() + "video"
+		String source1 = base + "\\" + coca.getNome()+ "\\" + "video"
 				+ new Integer(video1).toString() +"."
-				+ prop.getProp().getProperty("prop.formato.video.input"));
-		File source2 = new File(coca.getPathVideos() + "video"
-				+ new Integer(video2).toString()+"."
-				+ prop.getProp().getProperty("prop.formato.video.input"));
+				+ prop.getProp().getProperty("prop.formato.video.input");
+		File a = new File(source1);
+		
+		String source2 = base + "\\" + coca.getNome() + "\\" + "video"
+				+ new Integer(video2).toString() +"."
+				+ prop.getProp().getProperty("prop.formato.video.input");
+		
+		File b = new File(source1);
 		
 		//gera um resultado como video12 com a concatenacao de 1 e 2
-		File resultado = new File(coca.getPathVideos() + "video"
+		String resultado =  base + "\\" + coca.getNome()  + "\\" + "video"
 				+ new Integer(video1).toString() + new Integer(video2).toString()+"."
-				+ prop.getProp().getProperty("prop.formato.video.input"));
-		
-		if (!source1.exists()) {
+				+ prop.getProp().getProperty("prop.formato.video.input");
+		File c = new File(resultado);
+		if (!a.exists()) {
 			out.println("Source file does not exist: " + source1);
 			exit(0);
 		}
 
-		if (!source2.exists()) {
+		if (!b.exists()) {
 			out.println("Source file does not exist: " + source2);
 			exit(0);
 		}
 
-		concatenate(source1.getAbsolutePath(), source2.getAbsolutePath(),
-				resultado.getAbsolutePath());
+		/*concatenate(source1.getAbsolutePath(), source2.getAbsolutePath(),
+				resultado.getAbsolutePath());*/
+		
+		concatenate(a.getAbsolutePath(), b.getAbsolutePath(),
+				c.getAbsolutePath());
 		
 		
 		

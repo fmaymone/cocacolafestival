@@ -3,6 +3,7 @@ package org.br.maymone.projetococacola.model.filhos;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.net.URI;
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
@@ -12,7 +13,6 @@ import org.br.maymone.projetococacola.util.DadosImagem;
 import org.br.maymone.projetococacola.util.GeradorPosicoes;
 import org.br.maymone.projetococacola.util.Propriedades;
 import org.br.maymone.projetococacola.util.TextToImage;
-import org.mortbay.log.Log;
 
 import com.xuggle.mediatool.IMediaReader;
 import com.xuggle.mediatool.IMediaTool;
@@ -26,12 +26,11 @@ public class Video1 extends VideoGerado {
 	private String nomeGerar;
 	private String idVideoTemp;
 
-	public Video1(String idUsuario, String nomeGerar) throws Exception {
+	public Video1() throws Exception {
 		
 		super.setIdVideo(1);
 		this.setgPosicoes(new GeradorPosicoes(1));
-		this.nomeGerar = nomeGerar;
-		this.idVideoTemp = idUsuario;
+		
 	}
 
 	public static void main(String[] args) {
@@ -48,17 +47,14 @@ public class Video1 extends VideoGerado {
 		// abrir o video original
 		// create a media reader
 		
-		
-		
-		
-		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(classLoader.getResource(prop.getProp().getProperty("prop.pergunta.1.resposta")).getPath());
+		String idVideoTemp = "1";
 		
 		
 		//IMediaReader mediaReader = ToolFactory.makeReader(prop
 			//	.getUrlVideosRespostas()[0]);
-		
-		
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource(prop.getProp().getProperty("prop.pergunta.1.resposta")).getPath());
+		URL in = Thread.currentThread().getContextClassLoader().getResource(prop.getProp().getProperty("prop.pergunta.2.resposta"));
 		
 		IMediaReader mediaReader = ToolFactory.makeReader(file.getAbsolutePath());
 
@@ -73,29 +69,39 @@ public class Video1 extends VideoGerado {
 		
 		File folder = new File(classLoader.getResource("temp/").getPath());		
 		
-		boolean success = (new File(folder.getAbsolutePath() + "/" + idVideoTemp)).mkdirs();
+		String id = super.getCocaCola().getNome();
+		
+		
+		boolean success = (new File(folder.getAbsolutePath() + "/" + super.getCocaCola().getNome())).mkdirs();
 		if (!success) {
 			System.out.println("Erro ao criar folder");
 		}
 		
-		Log.info("Pasta temporária: "+ folder.getAbsolutePath() + "/" + idVideoTemp);
+		System.out.println("Pasta temporária: "+ folder.getAbsolutePath() + "/" + super.getCocaCola().getNome());
 		
-		String urlTemp = folder.getAbsolutePath() +  "/"+ idVideoTemp + "/"+"video1.mp4"; 
+		String urlTemp = folder.getAbsolutePath() +  "/"+ super.getCocaCola().getNome() + "/"+"video1.mp4"; 
 
 		IMediaWriter mediaWriter = ToolFactory.makeWriter(urlTemp, mediaReader);
 
-		String nomeGerado = this.nomeGerar;
+		
 
-		IMediaTool imageMediaTool = new StaticImageMediaTool(nomeGerado);
+		IMediaTool imageMediaTool = new StaticImageMediaTool(super.getCocaCola().getNome());
 		// Adicionou um listener com a imagem estatica
 		mediaReader.addListener(imageMediaTool);
 		mediaReader.addListener(mediaWriter);
 
 		// Adiciona o listener do nome
 
+		// Adiciona o listener do nome
+
 		while (mediaReader.readPacket() == null)
 			;
 
+		
+		System.out.println(mediaReader.getUrl());
+		mediaReader.close();
+		
+		
 		System.out.println("------------------------Video 1 GERADO-------------- ");
 
 	}

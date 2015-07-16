@@ -1,6 +1,7 @@
 package org.br.maymone.projetococacola.model;
 
-import java.io.File;
+import java.net.URL;
+import java.util.Arrays;
 import java.util.Calendar;
 
 import javax.persistence.Column;
@@ -9,8 +10,11 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.google.api.client.http.MultipartContent.Part;
 
 @Entity
 public class CocaCola {
@@ -46,11 +50,17 @@ public class CocaCola {
 	}
 
 
+
+
+
+
 	@Override
 	public String toString() {
 		return "CocaCola [id=" + id + ", dataCriacao=" + dataCriacao
 				+ ", respostas=" + respostas + ", urlVideo=" + urlVideo
-				+ ", tokenFacebook=" + nome + "]";
+				+ ", nome=" + nome + ", image=" + Arrays.toString(image)
+				+ ", status=" + status + ", sexo=" + sexo + ", cor=" + cor
+				+ "]";
 	}
 
 
@@ -131,10 +141,26 @@ public class CocaCola {
 	@Enumerated(EnumType.ORDINAL)
     private Cor cor;
 
+	@Lob
+	private byte[] imagem;
+		
 
 
 
 	
+
+
+
+	public byte[] getImagem() {
+		return imagem;
+	}
+
+
+	public void setImagem(byte[] imagem) {
+		this.imagem = imagem;
+	}
+
+
 	public Sexo getSexo() {
 		return sexo;
 	}
@@ -191,10 +217,18 @@ public class CocaCola {
 		String retorno = "";
 		
 		ClassLoader classLoader = getClass().getClassLoader();
-		retorno = classLoader.getResource("temp/" + getNome() + "/").getPath();
+		try{
+			
+			retorno = classLoader.getResource("temp/" + getNome() + "/").getPath();	
+			
+		}
+		catch (Exception e){
+			
+		}
+		//URL in = Thread.currentThread().getContextClassLoader().getResource("temp/" + getNome() + "/");
+		
 		
 		return retorno;
-		
 		
 	}
 
