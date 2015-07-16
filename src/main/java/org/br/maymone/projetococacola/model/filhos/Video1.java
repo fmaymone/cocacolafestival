@@ -96,7 +96,7 @@ public class Video1 extends VideoGerado {
 		while (mediaReader.readPacket() == null)
 			;
 
-		System.out.println("Acaboooouuuu");
+		System.out.println("------------------------Video 1 GERADO-------------- ");
 
 	}
 
@@ -140,6 +140,7 @@ public class Video1 extends VideoGerado {
 
 			DadosImagem dadosTemp = new DadosImagem();
 
+			System.out.println("------------------------Gerando Video 1-------------- ");
 			if (indice < dados.size()) {
 
 				dadosTemp = dados.get(indice);
@@ -154,18 +155,18 @@ public class Video1 extends VideoGerado {
 			// na lista. Senao, está no intervalo, ou seja, desenhará.
 			if (dadosTemp.getTempoInicial().longValue() * 1000 <= now) {
 
-				System.out.println("Tempo do Video: " + now + " Elemento: "
-						+ dadosTemp.toString());
+				/*System.out.println("Tempo do Video: " + now + " Elemento: "
+						+ dadosTemp.toString());*/
 				if (dadosTemp.getTempoFinal().intValue() * 1000 >= now) {
-					System.out.println("Desenhou, pois está no tempo " + now
-							+ dadosTemp.toString());
+					/*System.out.println("Desenhou, pois está no tempo " + now
+							+ dadosTemp.toString());*/
 					g.drawImage(logoImage, dadosTemp.getX(), dadosTemp.getY(),
 							null);
 				} else {
 					// passou do final, entao anda a lista
-					System.out
+					/*System.out
 							.println("Não desenhou, pois passou do tempo e vai agora andar o temp "
-									+ now + dadosTemp.toString());
+									+ now + dadosTemp.toString());*/
 					indice++;
 
 				}

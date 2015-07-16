@@ -91,11 +91,11 @@ public class Video3 extends VideoGerado {
 	mediaReader.addListener(mediaWriter);
 
 	// Adiciona o listener do nome
-
+	System.out.println("------------------------Gerando Video 3 -------------- ");
 	while (mediaReader.readPacket() == null)
 		;
 
-	System.out.println("Acaboooouuuu");
+	System.out.println("------------------------Video 3 GERADO-------------- ");
 
 }
 

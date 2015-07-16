@@ -93,11 +93,11 @@ public class Video2 extends VideoGerado {
 	mediaReader.addListener(mediaWriter);
 
 	// Adiciona o listener do nome
-
+	System.out.println("------------------------Gerando Video 2 -------------- ");
 	while (mediaReader.readPacket() == null)
 		;
 
-	System.out.println("Acaboooouuuu");
+	System.out.println("------------------------Video 2 GERADO-------------- ");
 
 }
 
@@ -155,18 +155,14 @@ private static class StaticImageMediaTool extends MediaToolAdapter {
 		// na lista. Senao, está no intervalo, ou seja, desenhará.
 		if (dadosTemp.getTempoInicial().longValue() * 1000 <= now) {
 
-			System.out.println("Tempo do Video: " + now + " Elemento: "
-					+ dadosTemp.toString());
+			
 			if (dadosTemp.getTempoFinal().intValue() * 1000 >= now) {
-				System.out.println("Desenhou, pois está no tempo " + now
-						+ dadosTemp.toString());
+			
 				g.drawImage(logoImage, dadosTemp.getX(), dadosTemp.getY(),
 						null);
 			} else {
 				// passou do final, entao anda a lista
-				System.out
-						.println("Não desenhou, pois passou do tempo e vai agora andar o temp "
-								+ now + dadosTemp.toString());
+				
 				indice++;
 
 			}

@@ -129,7 +129,7 @@ public class MemberController {
 		CocaCola coca = new CocaCola();
 		 Calendar cal = Calendar.getInstance();
 		  Date date = cal.getTime();
-		CocaCola c = new CocaCola(cal,"asdasdasdasd","url1", "Lennon", null, Status.RECEBIDA);
+		CocaCola c = new CocaCola(cal,"asdasdasdasd","url1", "Paul", null, Status.RECEBIDA);
 		
 		
 		try {

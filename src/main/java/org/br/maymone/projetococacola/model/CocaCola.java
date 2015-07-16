@@ -124,11 +124,37 @@ public class CocaCola {
 	
 	@Enumerated(EnumType.ORDINAL)
     private Status status;
+	
+	@Enumerated(EnumType.ORDINAL)
+    private Sexo sexo;
+	
+	@Enumerated(EnumType.ORDINAL)
+    private Cor cor;
 
 
 
 
 	
+	public Sexo getSexo() {
+		return sexo;
+	}
+
+
+	public void setSexo(Sexo sexo) {
+		this.sexo = sexo;
+	}
+
+
+	public Cor getCor() {
+		return cor;
+	}
+
+
+	public void setCor(Cor cor) {
+		this.cor = cor;
+	}
+
+
 	public String getNome() {
 		return nome;
 	}
@@ -179,6 +205,12 @@ public class CocaCola {
 	    RECEBIDA, PROCESSANDO, CONCLUIDA, FINALIZADA, CANCELADA, PROBLEMA
 	}
 	
+	public enum Sexo {
+	    M,F
+	}
+	public enum Cor{
+	    VERMELHO,VERDE,AMARELO
+	}
 
 
 	

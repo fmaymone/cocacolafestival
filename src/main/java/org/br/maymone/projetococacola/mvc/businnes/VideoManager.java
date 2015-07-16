@@ -108,13 +108,15 @@ public class VideoManager {
 		int numCenas = getNumCenas().intValue();
 		
 		Concatenate conc = new Concatenate();
-		
-		int tempContador = 3;
+	
 		
 		//vê se é impar (vou trabalhar com 3 como exemplo)
 		try {
 			conc.concatenar(1, 2, getCocaCola());
-			conc.concatenar(12, 3, getCocaCola());
+			conc.concatenar(3, 4, getCocaCola());
+			conc.concatenar(5, 6, getCocaCola());
+			conc.concatenar(12, 34, getCocaCola());
+			conc.concatenar(1234, 56, getCocaCola());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

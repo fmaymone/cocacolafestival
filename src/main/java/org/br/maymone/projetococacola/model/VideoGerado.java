@@ -8,6 +8,9 @@ import javax.inject.Inject;
 import org.br.maymone.projetococacola.model.filhos.Video1;
 import org.br.maymone.projetococacola.model.filhos.Video2;
 import org.br.maymone.projetococacola.model.filhos.Video3;
+import org.br.maymone.projetococacola.model.filhos.Video4;
+import org.br.maymone.projetococacola.model.filhos.Video5;
+import org.br.maymone.projetococacola.model.filhos.Video6;
 import org.br.maymone.projetococacola.util.GeradorPosicoes;
 
 import com.xuggle.mediatool.IMediaReader;
@@ -119,14 +122,35 @@ public class VideoGerado {
 
 			break;
 		case 4:
-			System.out.println("Quarta-feira");
+			try {
+				Video4 video;
+				video = new Video4(cocaCola);
+				video.gerar();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			break;
 		case 5:
-			System.out.println("Quinta-feira");
-			break;
+			try {
+				Video5 video;
+				video = new Video5(cocaCola);
+				video.gerar();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		case 6:
-			System.out.println("Sexta-feira");
-			break;
+			try {
+				Video6 video;
+				video = new Video6(cocaCola);
+				video.gerar();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 
 		}
 	}
