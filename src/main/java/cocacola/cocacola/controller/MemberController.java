@@ -36,15 +36,24 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
 
+import org.br.maymone.projetococacola.model.ClasseJsonCoca;
 import org.br.maymone.projetococacola.model.CocaCola;
-import org.br.maymone.projetococacola.model.CocaCola.Status;
 import org.br.maymone.projetococacola.model.Member;
 import org.br.maymone.projetococacola.model.filhos.Video1;
 import org.br.maymone.projetococacola.mvc.businnes.CocaColaManager;
 import org.br.maymone.projetococacola.mvc.businnes.VideoManager;
 import org.br.maymone.projetococacola.mvc.businnes.YouTubeManager;
+import org.jboss.resteasy.client.ClientRequest;
+import org.jboss.resteasy.client.ClientResponse;
 
+import cocacola.cocacola.rest.CocaColaRest;
 import cocacola.cocacola.service.MemberRegistration;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 
 
@@ -132,8 +141,10 @@ public class MemberController {
 
 	public void teste() throws FileNotFoundException {
 		log.info("Testando ");
-
 		
+		testarRestCoca();
+
+		/*
 		CocaCola coca = new CocaCola();
 		Calendar cal = Calendar.getInstance();
 		Date date = cal.getTime();
@@ -149,7 +160,7 @@ public class MemberController {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 
 	}
 
@@ -238,6 +249,54 @@ public class MemberController {
          
          
     }
+	
+	public void testarRestCoca(){
+		
+		
+		 
+		 try {
+			 
+			
+			 
+			ClientRequest request = new ClientRequest("http://festivaldomeujeito.com.br/server/index.php/festival/user/format/json");
+			 
+			 
+			ClientResponse<String> response = request.get(String.class);
+			
+			
+			Gson gson = new Gson();
+		    JsonParser parser = new JsonParser();
+		    JsonArray jArray = parser.parse(response.getEntity()).getAsJsonArray();
+		    
+		    for(JsonElement obj : jArray ){
+		    	
+		    	
+		    	System.out.println(obj.toString());
+		    	
+		    	JsonElement jelem = gson.fromJson(obj, JsonElement.class);
+		    	JsonObject jobj = jelem.getAsJsonObject();
+		    	System.out.println(jobj.get("mon_pergunta_1"));
+		    	ClasseJsonCoca coca = gson.fromJson(obj, ClasseJsonCoca.class);
+		    	System.out.println(coca.getMonPergunta1());
+		    	
+		    	
+		    	
+		    	
+		    }
+			
+			
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	     
+		
+		
+	
 
 
+}
+	
 }

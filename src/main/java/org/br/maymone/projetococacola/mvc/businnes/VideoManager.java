@@ -33,24 +33,19 @@ import com.xuggle.xuggler.IStream;
 import com.xuggle.xuggler.IStreamCoder;
 
 
-@Stateless
+
 public class VideoManager {
 
 	
 	private static IMediaWriter mediaWriter;
-	@Inject
+	
 	private static Propriedades prop;
 	
 	private static
 	Integer numCenas;
 
-	public FacebookManager getFacebookManager() {
-		return facebookManager;
-	}
-
-	public void setFacebookManager(FacebookManager facebookManager) {
-		this.facebookManager = facebookManager;
-	}
+	@Inject
+	private static YouTubeManager ytm; 
 
 	private static CocaCola cocaCola;
 	public static CocaCola getCocaCola() {
