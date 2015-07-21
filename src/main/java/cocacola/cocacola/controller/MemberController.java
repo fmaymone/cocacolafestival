@@ -23,6 +23,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Logger;
@@ -36,8 +37,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
 
+import org.br.maymone.projetococacola.media.Concatenate;
 import org.br.maymone.projetococacola.model.ClasseJsonCoca;
 import org.br.maymone.projetococacola.model.CocaCola;
+import org.br.maymone.projetococacola.model.CocaCola.Status;
 import org.br.maymone.projetococacola.model.Member;
 import org.br.maymone.projetococacola.model.filhos.Video1;
 import org.br.maymone.projetococacola.mvc.businnes.CocaColaManager;
@@ -142,9 +145,13 @@ public class MemberController {
 	public void teste() throws FileNotFoundException {
 		log.info("Testando ");
 		
-		testarRestCoca();
-
-		/*
+		
+	/*	Concatenate conc = new Concatenate();
+		URL in = Thread.currentThread().getContextClassLoader().getResource("videos\\");
+		
+		conc.concatenate(in.getPath()+"video1.mp4", in.getPath()+"video2.mp4", in.getPath()+"teste.mp4");*/
+		
+			
 		CocaCola coca = new CocaCola();
 		Calendar cal = Calendar.getInstance();
 		Date date = cal.getTime();
@@ -155,12 +162,16 @@ public class MemberController {
 		c.setNome(cocaCola.getNome());
 		c.setSexo(cocaCola.getSexo());
 		System.out.println(cocaCola.toString());
-		try {
-			 videoManager.gerarVideos(c);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+		
+		
+			 try {
+				videoManager.gerarVideos(c);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		
 
 	}
 

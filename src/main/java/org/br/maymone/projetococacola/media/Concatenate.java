@@ -85,7 +85,7 @@ public class Concatenate {
 				+ new Integer(video2).toString() +"."
 				+ prop.getProp().getProperty("prop.formato.video.input");
 		
-		File b = new File(source1);
+		File b = new File(source2);
 		
 		//gera um resultado como video12 com a concatenacao de 1 e 2
 		String resultado =  base + "\\" + coca.getNome()  + "\\" + "video"

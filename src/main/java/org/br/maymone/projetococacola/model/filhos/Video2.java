@@ -153,10 +153,10 @@ private static class StaticImageMediaTool extends MediaToolAdapter {
 		// se o tempo for maior que o inicial, verifica se foi maior que o
 		// final. Se for, avança
 		// na lista. Senao, está no intervalo, ou seja, desenhará.
-		if (dadosTemp.getTempoInicial().longValue() * 1000 <= now) {
+		if (dadosTemp.getTempoInicial().longValue()  <= now) {
 
 			
-			if (dadosTemp.getTempoFinal().intValue() * 1000 >= now) {
+			if (dadosTemp.getTempoFinal().longValue()   >= now) {
 			
 				g.drawImage(logoImage, dadosTemp.getX(), dadosTemp.getY(),
 						null);

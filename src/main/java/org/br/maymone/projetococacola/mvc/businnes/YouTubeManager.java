@@ -370,6 +370,7 @@ public class YouTubeManager {
 			System.err.println("Throwable: " + t.getMessage());
 			t.printStackTrace();
 		}
+		System.out.println(urlVideo);
 		return urlVideo;
 
 		

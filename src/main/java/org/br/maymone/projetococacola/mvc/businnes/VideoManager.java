@@ -93,7 +93,9 @@ public class VideoManager {
 		InputStream videoPublicar = classLoader.getResourceAsStream("temp" + "\\" + c.getNome() + "\\" + "video123456.mp4");
 				
 			
-		ytm.publicarVideo(videoPublicar);
+		String s = ytm.publicarVideo(videoPublicar);
+		
+		System.out.println("Video Publicado , com id:" + s);
 
 	}
 
