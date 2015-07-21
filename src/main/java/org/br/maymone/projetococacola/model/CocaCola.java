@@ -112,7 +112,6 @@ public class CocaCola {
 	
 
 	@Id
-	@GeneratedValue
 	private Long id;
 
 	@Temporal(TemporalType.DATE)
@@ -157,6 +156,9 @@ public class CocaCola {
 
 
 	public void setImagem(byte[] imagem) {
+		this.imagem = imagem;
+	}
+	public void setImagem(String url) {
 		this.imagem = imagem;
 	}
 

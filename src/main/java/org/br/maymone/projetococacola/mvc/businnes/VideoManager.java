@@ -32,22 +32,19 @@ import com.xuggle.xuggler.IContainer;
 import com.xuggle.xuggler.IStream;
 import com.xuggle.xuggler.IStreamCoder;
 
-
-
 public class VideoManager {
 
-	
 	private static IMediaWriter mediaWriter;
-	
+
 	private static Propriedades prop;
-	
-	private static
-	Integer numCenas;
+
+	private static Integer numCenas;
 
 	@Inject
-	private static YouTubeManager ytm; 
+	private static YouTubeManager ytm;
 
 	private static CocaCola cocaCola;
+
 	public static CocaCola getCocaCola() {
 		return cocaCola;
 	}
@@ -62,7 +59,8 @@ public class VideoManager {
 
 		// FacebookUser fbu = c.getFacebookUser();
 
-		//LinkedHashSet<VideoGerado> listaVideosGerados = new LinkedHashSet<VideoGerado>();
+		// LinkedHashSet<VideoGerado> listaVideosGerados = new
+		// LinkedHashSet<VideoGerado>();
 		Propriedades prop = new Propriedades();
 
 		this.setCocaCola(c);
@@ -76,26 +74,31 @@ public class VideoManager {
 			temp.setgPosicoes(g);
 			temp.setCocaCola(c);
 			temp.setIdUsuario(new Integer(100 + i).toString());
-			temp.gerar(i+1);
+			temp.gerar(i + 1);
 
 		}
-		
+
 		concatenarVideos();
 		YouTubeManager ytm = new YouTubeManager();
-		
+
 		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(classLoader.getResource("temp/").getPath());		
+		File file = new File(classLoader.getResource("temp/").getPath());
 		String base = file.getAbsolutePath();
 
-		String source1 = base + "\\" + c.getNome()+ "\\" + "video123456"
+		String source1 = base + "\\" + c.getNome() + "\\" + "video123456"
 				+ prop.getProp().getProperty("prop.formato.video.input");
-		
-		InputStream videoPublicar = classLoader.getResourceAsStream("temp" + "\\" + c.getNome() + "\\" + "video123456.mp4");
-				
-			
+
+		InputStream videoPublicar = classLoader.getResourceAsStream("temp"
+				+ "\\" + c.getNome() + "\\" + "video123456.mp4");
+
 		String s = ytm.publicarVideo(videoPublicar);
-		
+
+		c.setUrlVideo(s);
 		System.out.println("Video Publicado , com id:" + s);
+
+		// enviar arquivos pra base
+		CocaColaManager cm = new CocaColaManager(false);
+		cm.enviarLinkUsuario(c);
 
 	}
 
@@ -109,20 +112,16 @@ public class VideoManager {
 
 	public VideoManager() {
 
-		
-		
-
 	}
-	
-	public void concatenarVideos(){
-		
-		//pega o numero de cenas
+
+	public void concatenarVideos() {
+
+		// pega o numero de cenas
 		int numCenas = getNumCenas().intValue();
-		
+
 		Concatenate conc = new Concatenate();
-	
-		
-		//vê se é impar (vou trabalhar com 3 como exemplo)
+
+		// vê se é impar (vou trabalhar com 3 como exemplo)
 		try {
 			conc.concatenar(1, 2, getCocaCola());
 			conc.concatenar(3, 4, getCocaCola());
@@ -133,18 +132,12 @@ public class VideoManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
-		
-		
-		
+
 	}
 
 	// metodo para testes somente
 	public VideoManager(boolean teste) throws Exception {
 		prop = new Propriedades();
-		gerarVideo1();
 
 	}
 
@@ -232,125 +225,6 @@ public class VideoManager {
 
 	public static void setProp(Propriedades prop) {
 		VideoManager.prop = prop;
-	}
-
-
-
-
-
-	// video com o nome do cara
-	public void gerarVideo1() throws Exception {
-
-		// pegar as posicoes
-		GeradorPosicoes g = new GeradorPosicoes(1);
-		// abrir o video original
-		// create a media reader
-		IMediaReader mediaReader = ToolFactory.makeReader(prop
-				.getUrlVideosRespostas()[0]);
-
-		// configure it to generate BufferImages
-		mediaReader
-				.setBufferedImageTypeToGenerate(BufferedImage.TYPE_3BYTE_BGR);
-
-		IMediaWriter mediaWriter = ToolFactory.makeWriter("video1temp.mov",
-				mediaReader);
-
-		String nomeGerado = "Teste";
-		if (facebookManager != null) {
-
-			nomeGerado = facebookManager.getUser().getFirstName();
-		}
-
-		IMediaTool imageMediaTool = new StaticImageMediaTool(nomeGerado);
-		// Adicionou um listener com a imagem estatica
-		mediaReader.addListener(imageMediaTool);
-		mediaReader.addListener(mediaWriter);
-
-		// Adiciona o listener do nome
-
-		while (mediaReader.readPacket() == null)
-			;
-
-		System.out.println("Acaboooouuuu");
-
-	}
-
-	private static class StaticImageMediaTool extends MediaToolAdapter {
-
-		private BufferedImage logoImage;
-
-		private GeradorPosicoes gp;
-
-		public int indice = 0;
-
-		public StaticImageMediaTool(String texto) throws Exception {
-
-			System.out.println("Entrou no laço de pegar a imagem");
-
-			gp = new GeradorPosicoes(1);
-
-			TextToImage ti = new TextToImage();
-
-			logoImage = ti.gerarImagemTexto(texto);
-
-			System.out.println("Pegou Imagem corretamente de texto");
-
-		}
-
-		@Override
-		public void onVideoPicture(IVideoPictureEvent event) {
-
-			BufferedImage image = event.getImage();
-
-			gp.getDadosImagem();
-
-			// get the graphics for the image
-			Graphics2D g = image.createGraphics();
-			System.out.println(event.getTimeStamp());
-
-			Long now = event.getTimeStamp();
-
-			Collections.sort(gp.getDadosImagem());
-			List<DadosImagem> dados = gp.getDadosImagem();
-
-			DadosImagem dadosTemp = new DadosImagem();
-
-			if (indice < dados.size()) {
-
-				dadosTemp = dados.get(indice);
-			} else {
-
-				dadosTemp = new DadosImagem(new Long(0), new Long(0),
-						new Integer(0), new Integer(0));
-			}
-
-			// se o tempo for maior que o inicial, verifica se foi maior que o
-			// final. Se for, avança
-			// na lista. Senao, está no intervalo, ou seja, desenhará.
-			if (dadosTemp.getTempoInicial().longValue() * 1000 <= now) {
-
-				System.out.println("Tempo do Video: " + now + " Elemento: "
-						+ dadosTemp.toString());
-				if (dadosTemp.getTempoFinal().intValue() * 1000 >= now) {
-					System.out.println("Desenhou, pois está no tempo " + now
-							+ dadosTemp.toString());
-					g.drawImage(logoImage, dadosTemp.getX(), dadosTemp.getY(),
-							null);
-				} else {
-					// passou do final, entao anda a lista
-					System.out
-							.println("Não desenhou, pois passou do tempo e vai agora andar o temp "
-									+ now + dadosTemp.toString());
-					indice++;
-
-				}
-			}
-
-			// call parent which will pass the video onto next tool in chain
-			super.onVideoPicture(event);
-
-		}
-
 	}
 
 }

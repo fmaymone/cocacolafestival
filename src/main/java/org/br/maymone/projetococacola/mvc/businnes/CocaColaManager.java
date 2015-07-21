@@ -1,5 +1,12 @@
 package org.br.maymone.projetococacola.mvc.businnes;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -9,13 +16,19 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.br.maymone.projetococacola.media.VideoPersonalizado;
+import org.br.maymone.projetococacola.model.ClasseJsonCoca;
 import org.br.maymone.projetococacola.model.CocaCola;
 import org.br.maymone.projetococacola.model.CocaCola.Status;
 import org.br.maymone.projetococacola.util.Propriedades;
+import org.jboss.resteasy.client.ClientRequest;
+import org.jboss.resteasy.client.ClientResponse;
 import org.mortbay.log.Log;
 
-import com.google.api.client.json.Json;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.xuggle.mediatool.IMediaReader;
 import com.xuggle.mediatool.IMediaWriter;
 import com.xuggle.mediatool.ToolFactory;
@@ -174,6 +187,110 @@ public class CocaColaManager {
 		return "Olar enviarDAdos";
 	}
 	
+	//metodo que busca as solicitacoes abertas no JSON
+	public ArrayList<CocaCola> processarSolicitacoes(){
+		
+		ArrayList<CocaCola> retorno = new ArrayList();
+		 
+		 try {
+			 
+			
+			 
+			ClientRequest request = new ClientRequest("http://festivaldomeujeito.com.br/server/index.php/festival/user/format/json");
+			 
+			 
+			ClientResponse<String> response = request.get(String.class);
+			
+			
+			Gson gson = new Gson();
+		    JsonParser parser = new JsonParser();
+		    JsonArray jArray = parser.parse(response.getEntity()).getAsJsonArray();
+		    
+		    for(JsonElement obj : jArray ){
+		    	
+		    	
+		    	System.out.println(obj.toString());
+		    	
+		    	JsonElement jelem = gson.fromJson(obj, JsonElement.class);
+		    	JsonObject jobj = jelem.getAsJsonObject();
+		    	System.out.println(jobj.get("mon_pergunta_1"));
+		    	ClasseJsonCoca cocaJson = gson.fromJson(obj, ClasseJsonCoca.class);
+		    	System.out.println(cocaJson.getMonPergunta1());
+		    	CocaCola temp = new CocaCola();
+		    	
+		    	temp.setId(new Long(cocaJson.getMonId().toString()));
+		    	
+		    	temp.setNome(cocaJson.getUsuFirstName().toString());
+		    	
+		    	String respostas = cocaJson.getMonPergunta1().toString() +";"+
+		    			cocaJson.getMonAmbiente().toString() +";"+
+		    			cocaJson.getMonPergunta3().toString() +";"+
+		    			cocaJson.getMonPergunta4().toString()+";"+
+		    			cocaJson.getMonPergunta5().toString();
+		    	
+		    	temp.setRespostas(respostas);
+		    	
+		    	temp.setImagem("urlUsuario");
+		    	
+		    	
+		    	retorno.add(temp);
+		    	
+		    	
+		    	
+		    }
+			
+			
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return retorno;
+	     
+		
+		
 	
 
+
 }
+	
+public void enviarLinkUsuario(CocaCola c) throws IOException{
+	
+	
+	
+	try {
+		JsonObject json = new JsonObject();
+		json.addProperty("mon_id", c.getId().toString());
+		json.addProperty("mon_link_youtube", c.getUrlVideo());
+		
+		String baseUrl = "http://festivaldomeujeito.com.br/index.php/server/user/id/" + c.getId().toString();
+		URL url = new URL (baseUrl);
+		URLConnection connection = url.openConnection();
+		connection.setDoOutput(true);
+		connection.setRequestProperty("Content-Type", "application/json");
+		connection.setConnectTimeout(5000);
+		connection.setReadTimeout(5000);
+		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
+		out.write(json.toString());
+		out.close();
+		BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		 
+		while (in.readLine() != null) {
+		}
+		System.out.println("\n REST Service Invoked Successfully..");
+		in.close();
+	} catch (Exception e) {
+		System.out.println("\nError while calling REST Service");
+		System.out.println(e);
+	}
+
+	
+
+	
+	
+}
+	
+}
+
+
