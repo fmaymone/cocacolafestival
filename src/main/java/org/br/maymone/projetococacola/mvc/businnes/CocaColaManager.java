@@ -264,7 +264,7 @@ public void enviarLinkUsuario(CocaCola c) throws IOException{
 		json.addProperty("mon_id", c.getId().toString());
 		json.addProperty("mon_link_youtube", c.getUrlVideo());
 		
-		String baseUrl = "http://festivaldomeujeito.com.br/index.php/server/user/id/" + c.getId().toString();
+		String baseUrl = "http://festivaldomeujeito.com.br/server/index.php/festival/user/id/" + c.getId().toString();
 		URL url = new URL (baseUrl);
 		URLConnection connection = url.openConnection();
 		connection.setDoOutput(true);
@@ -277,6 +277,7 @@ public void enviarLinkUsuario(CocaCola c) throws IOException{
 		BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 		 
 		while (in.readLine() != null) {
+			System.out.println(in.readLine());
 		}
 		System.out.println("\n REST Service Invoked Successfully..");
 		in.close();

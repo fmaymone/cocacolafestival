@@ -1,64 +1,38 @@
 package org.br.maymone.projetococacola.model;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Calendar;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.imageio.ImageIO;
 
-import com.google.api.client.http.MultipartContent.Part;
 
-@Entity
 public class CocaCola {
 	
 	 public CocaCola(Calendar dataCriacao, String respostas,
-			String urlVideo, String nome, byte[] image, Status status) {
+			String urlVideo, String nome,  Status status) {
 		super();
 		
 		this.dataCriacao = dataCriacao;
 		this.respostas = respostas;
 		this.urlVideo = urlVideo;
 		this.nome = nome;
-		this.image = image;
+		
 		this.status = status;
 	}
 
 
 	public CocaCola(){}
 	
-	private static FacebookUser facebookUser;
-	 	
-
-	private static VideoUsuario videoUsuario;
-
-	
-	public static VideoUsuario getVideoUsuario() {
-		return videoUsuario;
-	}
-
-
-	public static void setVideoUsuario(VideoUsuario videoUsuario) {
-		CocaCola.videoUsuario = videoUsuario;
-	}
-
-
-
-
-
 
 	@Override
 	public String toString() {
 		return "CocaCola [id=" + id + ", dataCriacao=" + dataCriacao
 				+ ", respostas=" + respostas + ", urlVideo=" + urlVideo
-				+ ", nome=" + nome + ", image=" + Arrays.toString(image)
+				+ ", nome=" + nome + ", image=" 
 				+ ", status=" + status + ", sexo=" + sexo + ", cor=" + cor
 				+ "]";
 	}
@@ -111,37 +85,33 @@ public class CocaCola {
 
 	
 
-	@Id
+
 	private Long id;
 
-	@Temporal(TemporalType.DATE)
+
 	private Calendar dataCriacao;
 
-	@Column
+
 	private String respostas;
 
-	@Column
+
 	private String urlVideo;
 
-	@Column
+
 	private String nome;
 	
 	
-    @Column(name="image", nullable=true)
-    private byte[] image;
-	
-	
-	@Enumerated(EnumType.ORDINAL)
+  
     private Status status;
 	
-	@Enumerated(EnumType.ORDINAL)
+	
     private Sexo sexo;
 	
-	@Enumerated(EnumType.ORDINAL)
+	
     private Cor cor;
 
-	@Lob
-	private byte[] imagem;
+	
+	private BufferedImage  imagem;
 		
 
 
@@ -150,16 +120,27 @@ public class CocaCola {
 
 
 
-	public byte[] getImagem() {
-		return imagem;
+	public void setImagem(BufferedImage imagem) {
+		this.imagem = imagem;
 	}
 
 
-	public void setImagem(byte[] imagem) {
-		this.imagem = imagem;
-	}
-	public void setImagem(String url) {
-		this.imagem = imagem;
+
+	public void setImagem(String s) throws IOException {
+		//http://festivaldomeujeito.com.br/site/uploads/festival/10205026925565317/avatar_crop.jpg
+		URL url;
+		try {
+			url = new URL(s);
+			imagem = ImageIO.read(url);
+			
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
 	}
 
 
@@ -190,16 +171,6 @@ public class CocaCola {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-
-	public byte[] getImage() {
-		return image;
-	}
-
-
-	public void setImage(byte[] image) {
-		this.image = image;
 	}
 
 
@@ -246,6 +217,9 @@ public class CocaCola {
 	}
 	public enum Cor{
 	    VERMELHO,VERDE,AMARELO
+	}
+	public BufferedImage getImagem() {
+		return imagem;
 	}
 
 

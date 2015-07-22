@@ -139,8 +139,8 @@ public class Concatenate {
 
 		final int videoStreamIndex = 0;
 		final int videoStreamId = 0;
-		final int width = 1280;
-		final int height = 720;
+		final int width = 1920;
+		final int height = 1080;
 
 		// audio parameters
 

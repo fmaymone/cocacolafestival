@@ -89,7 +89,7 @@ public class VideoManager {
 				+ prop.getProp().getProperty("prop.formato.video.input");
 
 		InputStream videoPublicar = classLoader.getResourceAsStream("temp"
-				+ "\\" + c.getNome() + "\\" + "video123456.mp4");
+				+ "\\" + c.getNome() + "\\" + "video123456.mov");
 
 		String s = ytm.publicarVideo(videoPublicar);
 
@@ -99,6 +99,7 @@ public class VideoManager {
 		// enviar arquivos pra base
 		CocaColaManager cm = new CocaColaManager(false);
 		cm.enviarLinkUsuario(c);
+		System.out.println("Video Enviado :" + c.toString());
 
 	}
 

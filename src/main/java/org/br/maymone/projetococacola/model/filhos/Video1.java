@@ -3,8 +3,6 @@ package org.br.maymone.projetococacola.model.filhos;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.net.URI;
-import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 
@@ -12,7 +10,6 @@ import org.br.maymone.projetococacola.model.VideoGerado;
 import org.br.maymone.projetococacola.util.DadosImagem;
 import org.br.maymone.projetococacola.util.GeradorPosicoes;
 import org.br.maymone.projetococacola.util.Propriedades;
-import org.br.maymone.projetococacola.util.TextToImage;
 
 import com.xuggle.mediatool.IMediaReader;
 import com.xuggle.mediatool.IMediaTool;
@@ -35,6 +32,14 @@ public class Video1 extends VideoGerado {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		
+		try {
+			Video1 v = new Video1();
+			v.gerar();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -54,7 +59,7 @@ public class Video1 extends VideoGerado {
 			//	.getUrlVideosRespostas()[0]);
 		ClassLoader classLoader = getClass().getClassLoader();
 		File file = new File(classLoader.getResource(prop.getProp().getProperty("prop.pergunta.1.resposta")).getPath());
-		URL in = Thread.currentThread().getContextClassLoader().getResource(prop.getProp().getProperty("prop.pergunta.2.resposta"));
+		
 		
 		IMediaReader mediaReader = ToolFactory.makeReader(file.getAbsolutePath());
 
@@ -62,15 +67,14 @@ public class Video1 extends VideoGerado {
 		// configure it to generate BufferImages
 		mediaReader
 				.setBufferedImageTypeToGenerate(BufferedImage.TYPE_3BYTE_BGR);
+		
+		String nomeGerar = super.getCocaCola().getNome();
 
-		//System.out.println()
-		String folderBase = prop.getProp().getProperty("prop.video.pasta.temp");
-		
-		
+				
 		File folder = new File(classLoader.getResource("temp/").getPath());		
 		
-		String id = super.getCocaCola().getNome();
 		
+		String id = "Olar";
 		
 		boolean success = (new File(folder.getAbsolutePath() + "/" + super.getCocaCola().getNome())).mkdirs();
 		if (!success) {
@@ -79,13 +83,15 @@ public class Video1 extends VideoGerado {
 		
 		System.out.println("Pasta temporária: "+ folder.getAbsolutePath() + "/" + super.getCocaCola().getNome());
 		
-		String urlTemp = folder.getAbsolutePath() +  "/"+ super.getCocaCola().getNome() + "/"+"video1.mp4"; 
+		String urlTemp = folder.getAbsolutePath() +  "\\"+ super.getCocaCola().getNome() + "/"+"video1.mov"; 
 
 		IMediaWriter mediaWriter = ToolFactory.makeWriter(urlTemp, mediaReader);
 
 		
+		super.getCocaCola().setImagem("http://festivaldomeujeito.com.br/site/uploads/festival/10205026925565317/avatar_crop.jpg");
+		
 
-		IMediaTool imageMediaTool = new StaticImageMediaTool(super.getCocaCola().getNome());
+		IMediaTool imageMediaTool = new StaticImageMediaTool(super.getCocaCola().getImagem());
 		// Adicionou um listener com a imagem estatica
 		mediaReader.addListener(imageMediaTool);
 		mediaReader.addListener(mediaWriter);
@@ -114,15 +120,14 @@ public class Video1 extends VideoGerado {
 
 		public int indice = 0;
 
-		public StaticImageMediaTool(String texto) throws Exception {
+		public StaticImageMediaTool(BufferedImage i) throws Exception {
 
 			System.out.println("Entrou no laço de pegar a imagem");
 
 			gp = getgPosicoes();
+		
 
-			TextToImage ti = new TextToImage();
-
-			logoImage = ti.gerarImagemTexto(texto);
+			logoImage = i;
 
 			System.out.println("Pegou Imagem corretamente de texto");
 
@@ -147,34 +152,32 @@ public class Video1 extends VideoGerado {
 			DadosImagem dadosTemp = new DadosImagem();
 
 			System.out.println("------------------------Gerando Video 1-------------- ");
-			if (indice < dados.size()) {
+			
 
-				dadosTemp = dados.get(indice);
-			} else {
-
-				dadosTemp = new DadosImagem(new Long(0), new Long(0),
-						new Integer(0), new Integer(0));
-			}
-
-			// se o tempo for maior que o inicial, verifica se foi maior que o
-			// final. Se for, avança
-			// na lista. Senao, está no intervalo, ou seja, desenhará.
-			if (dadosTemp.getTempoInicial().longValue()  <= now) {
-
-				/*System.out.println("Tempo do Video: " + now + " Elemento: "
-						+ dadosTemp.toString());*/
-				if (dadosTemp.getTempoFinal().intValue() >= now) {
-					System.out.println("Desenhou, pois está no tempo " + now
-							+ dadosTemp.toString());
-					g.drawImage(logoImage, dadosTemp.getX(), dadosTemp.getY(),
+			int size = dados.size();
+			
+			int xAjuste = -100;
+			int yAjuste = -150;
+			if(indice < size){
+			dadosTemp = dados.get(indice);
+			
+			Graphics2D g2d=(Graphics2D)g;       // Create a Java2D version of g.
+			g2d.translate(170, 0);              // Translate the center of our coordinates.
+			g2d.rotate(1);                      // Rotate the image by 1 radian.
+			
+			
+					g2d.drawImage(logoImage, dadosTemp.getX() + xAjuste, dadosTemp.getY() + yAjuste,
 							null);
-				} else {
-					// passou do final, entao anda a lista
-				//	
+			
+					
 					indice++;
 
-				}
+			}else{
+				g.drawImage(logoImage, 0, 0,
+						null);
+				
 			}
+			
 
 			// call parent which will pass the video onto next tool in chain
 			super.onVideoPicture(event);
@@ -182,5 +185,6 @@ public class Video1 extends VideoGerado {
 		}
 
 	}
+	
 
 }

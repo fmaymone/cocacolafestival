@@ -55,7 +55,7 @@ public class Video4 extends VideoGerado {
 		//	.getUrlVideosRespostas()[0]);
 	ClassLoader classLoader = getClass().getClassLoader();
 	//File file = new File(classLoader.getResource(prop.getProp().getProperty("prop.pergunta.4.resposta")).getPath());
-	File file = new File(classLoader.getResource("videos/video4.mp4").getPath());
+	File file = new File(classLoader.getResource(prop.getProp().getProperty("prop.pergunta.4.resposta")).getPath());
 	//URL in = Thread.currentThread().getContextClassLoader().getResource(prop.getProp().getProperty("prop.pergunta.2.resposta"));
 	
 	IMediaReader mediaReader = ToolFactory.makeReader(file.getAbsolutePath());
@@ -80,7 +80,7 @@ public class Video4 extends VideoGerado {
 	
 	System.out.println("Pasta temporária: "+ folder.getAbsolutePath() + "/" + super.getCocaCola().getNome());
 	
-	String urlTemp = folder.getAbsolutePath() +  "/"+ super.getCocaCola().getNome() + "/"+"video4.mp4"; 
+	String urlTemp = folder.getAbsolutePath() +  "/"+ super.getCocaCola().getNome() + "/"+"video4.mov"; 
 
 	IMediaWriter mediaWriter = ToolFactory.makeWriter(urlTemp, mediaReader);
 

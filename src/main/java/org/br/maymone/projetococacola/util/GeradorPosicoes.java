@@ -115,7 +115,7 @@ public class GeradorPosicoes {
 
 		JsonObject jsonObject = jElement.getAsJsonObject();
 
-		JsonArray jArray = jsonObject.get("Nando-position").getAsJsonObject()
+		JsonArray jArray = jsonObject.get("position").getAsJsonObject()
 				.get("frameData").getAsJsonArray();
 
 		// pegar o primeiro elemento

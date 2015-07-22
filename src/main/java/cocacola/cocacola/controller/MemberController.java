@@ -155,7 +155,7 @@ public class MemberController {
 		CocaCola coca = new CocaCola();
 		Calendar cal = Calendar.getInstance();
 		Date date = cal.getTime();
-		CocaCola c = new CocaCola(cal, "asdasdasdasd", "url1", "Paul", null,
+		CocaCola c = new CocaCola(cal, "asdasdasdasd", "url1", "Paul",
 				Status.RECEBIDA);
 		
 		c.setCor(cocaCola.getCor());
@@ -183,10 +183,11 @@ public class MemberController {
 
 	}
 
-	public void gerarVideoTeste() {
+	public void gerarVideoTeste(CocaCola c) {
 
 		try {
 			Video1 v = new Video1();
+			
 			v.gerarVideo();
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block

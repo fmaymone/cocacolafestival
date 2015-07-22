@@ -81,7 +81,7 @@ public class Video2 extends VideoGerado {
 	
 	System.out.println("Pasta temporária: "+ folder.getAbsolutePath() + "/" + super.getCocaCola().getNome());
 	
-	String urlTemp = folder.getAbsolutePath() +  "/"+ super.getCocaCola().getNome() + "/"+"video2.mp4"; 
+	String urlTemp = folder.getAbsolutePath() +  "/"+ super.getCocaCola().getNome() + "/"+"video2.mov"; 
 
 	IMediaWriter mediaWriter = ToolFactory.makeWriter(urlTemp, mediaReader);
 
