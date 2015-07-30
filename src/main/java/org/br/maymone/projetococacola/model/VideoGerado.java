@@ -1,8 +1,8 @@
 package org.br.maymone.projetococacola.model;
 
+import java.io.File;
 import java.util.logging.Logger;
 
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import org.br.maymone.projetococacola.model.filhos.Video1;
@@ -15,7 +15,6 @@ import org.br.maymone.projetococacola.util.GeradorPosicoes;
 
 import com.xuggle.mediatool.IMediaReader;
 
-
 public class VideoGerado {
 
 	// se o video eh o 1,2,3 da lista
@@ -23,8 +22,7 @@ public class VideoGerado {
 	private static IMediaReader video;
 	private static GeradorPosicoes gPosicoes;
 	private static String idUsuario;
-	
-
+	private static String urlBaseVideos;
 
 	public static CocaCola getCocaCola() {
 		return cocaCola;
@@ -43,10 +41,14 @@ public class VideoGerado {
 		return idUsuario;
 	}
 
-	public VideoGerado(){
-		
-		
+	public VideoGerado() {
+
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource("videos/").getPath());
+		this.urlBaseVideos = file.getAbsolutePath();
+
 	}
+
 	public static void setIdUsuario(String idUsuario) {
 		VideoGerado.idUsuario = idUsuario;
 	}
@@ -82,7 +84,7 @@ public class VideoGerado {
 
 		switch (i) {
 		case 1:
-			//log.info("Gerando video 1");
+			// log.info("Gerando video 1");
 
 			try {
 				Video1 video;
@@ -96,7 +98,6 @@ public class VideoGerado {
 			break;
 		case 2:
 
-
 			try {
 				Video2 video2;
 				video2 = new Video2();
@@ -108,7 +109,7 @@ public class VideoGerado {
 
 			break;
 		case 3:
-			//log.info("Gerando video 1");
+			// log.info("Gerando video 1");
 
 			try {
 				Video3 video;
@@ -150,13 +151,123 @@ public class VideoGerado {
 				e.printStackTrace();
 			}
 
-
 		}
 	}
 
 	public void gerar() throws Exception {
 		// TODO Auto-generated method stub
+
+	}
+	public String getUrlCena1() {
+		String retorno = "";
+		// cena + sexo + camisa
+		//Cena 2 - Escolha camisa
+		ClasseJsonCoca c = this.getCocaCola().getJsonCoca();
+
+		retorno += urlBaseVideos +"//";
+		retorno += "cena1" + "//";
+		retorno +=  "video1.mov";
+			
+		File file = new File(retorno);
+		System.out.println(retorno);
+		System.out.println(file.exists());
+
+		return retorno;
+	}
+	public String getUrlCena2() {
+		String retorno = "";
+		// cena + sexo + camisa
+		//Cena 2 - Escolha camisa
+		ClasseJsonCoca c = this.getCocaCola().getJsonCoca();
+
+		retorno += urlBaseVideos +"//";
+		retorno += "cena2" + "//";
+		retorno += c.getUsuGender() + "//";
+		retorno += c.getMonPergunta3() + "//";
+		retorno +=  "video1.mov";
 		
+		File file = new File(retorno);
+		System.out.println(retorno);
+		System.out.println(file.exists());
+
+		return retorno;
+	}
+
+	public String getUrlCena3() {
+		String retorno = "";
+		// Van - Feminino - Camisa 1
+		ClasseJsonCoca c = this.getCocaCola().getJsonCoca();
+
+		retorno += urlBaseVideos +"//";
+		retorno += "cena3" + "//";
+		retorno += c.getMonPergunta1() + "//";
+		retorno += c.getUsuGender() + "//";
+		retorno += c.getMonPergunta3() + "//";
+		retorno += "video1.mov";
+		
+		File file = new File(retorno);
+		System.out.println(retorno);
+		System.out.println(file.exists());
+
+		
+		return retorno;
+	}
+
+	public String getUrlCena4() {
+		String retorno = "";
+		retorno += urlBaseVideos +"//";
+		ClasseJsonCoca c = this.getCocaCola().getJsonCoca();
+		// Feminino - Camisa 1
+		retorno += "cena4" + "//";
+		retorno += c.getUsuGender() + "//";
+		retorno += c.getMonPergunta3() + "//";
+		retorno += "video1.mov";
+		
+		File file = new File(retorno);
+		System.out.println(retorno);
+		System.out.println(file.exists());
+		System.out.println(retorno);
+		return retorno;
+	}
+
+	public String getUrlCena5() {
+		String retorno = "";
+		// de onde assistir
+		// Palco - Feminino - Camisa 1
+		ClasseJsonCoca c = this.getCocaCola().getJsonCoca();
+		
+		retorno += urlBaseVideos +"//";
+		retorno += "cena5" + "//";
+		retorno += c.getMonAmbiente() + "//";
+		retorno += c.getUsuGender() + "//";
+		retorno += c.getMonPergunta3() + "//";
+		retorno += "video1.mov";
+		
+		File file = new File(retorno);
+		System.out.println(retorno);
+		System.out.println(file.exists());
+		
+	
+		return retorno;
+	}
+
+	public String getUrlCena6() {
+		String retorno = "";
+		ClasseJsonCoca c = this.getCocaCola().getJsonCoca();
+		//Cena 6 - presente do festival
+		//Pôster - Feminino - Camisa 1
+		retorno += urlBaseVideos +"//";
+		retorno += "cena6" + "//";
+		retorno += c.getMonPergunta5() + "//";
+		retorno += c.getUsuGender() + "//";
+		retorno += c.getMonPergunta3() + "//";
+		retorno +=  "video1.mov";
+		
+		File file = new File(retorno);
+		System.out.println(retorno);
+		System.out.println(file.exists());
+		
+		return retorno;
 	}
 
 }

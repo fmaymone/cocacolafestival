@@ -12,9 +12,24 @@ import javax.imageio.ImageIO;
 
 public class CocaCola {
 	
-	 public CocaCola(Calendar dataCriacao, String respostas,
+	
+	private ClasseJsonCoca jsonCoca;
+	
+	 public ClasseJsonCoca getJsonCoca() {
+		return jsonCoca;
+	}
+
+
+	public void setJsonCoca(ClasseJsonCoca jsonCoca) {
+		this.jsonCoca = jsonCoca;
+	}
+
+
+	public CocaCola(Calendar dataCriacao, String respostas,
 			String urlVideo, String nome,  Status status) {
 		super();
+		
+		
 		
 		this.dataCriacao = dataCriacao;
 		this.respostas = respostas;

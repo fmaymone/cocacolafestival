@@ -262,6 +262,7 @@ public void enviarLinkUsuario(CocaCola c) throws IOException{
 	try {
 		JsonObject json = new JsonObject();
 		json.addProperty("mon_id", c.getId().toString());
+		
 		json.addProperty("mon_link_youtube", c.getUrlVideo());
 		
 		String baseUrl = "http://festivaldomeujeito.com.br/server/index.php/festival/user/id/" + c.getId().toString();

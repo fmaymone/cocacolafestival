@@ -65,15 +65,13 @@ public class VideoManager {
 
 		this.setCocaCola(c);
 		numCenas = prop.getNumeroCenas();
-
+		numCenas = 1;
 		// pra cada cena vou gerar o video
 		for (int i = 0; i < numCenas.intValue(); i++) {
 
 			VideoGerado temp = new VideoGerado();
 			GeradorPosicoes g = new GeradorPosicoes(i + 1);
-			temp.setgPosicoes(g);
 			temp.setCocaCola(c);
-			temp.setIdUsuario(new Integer(100 + i).toString());
 			temp.gerar(i + 1);
 
 		}
@@ -91,15 +89,15 @@ public class VideoManager {
 		InputStream videoPublicar = classLoader.getResourceAsStream("temp"
 				+ "\\" + c.getNome() + "\\" + "video123456.mov");
 
-		String s = ytm.publicarVideo(videoPublicar);
+		//String s = ytm.publicarVideo(videoPublicar);
 
-		c.setUrlVideo(s);
-		System.out.println("Video Publicado , com id:" + s);
+		//c.setUrlVideo(s);
+		//System.out.println("Video Publicado , com id:" + s);
 
 		// enviar arquivos pra base
-		CocaColaManager cm = new CocaColaManager(false);
-		cm.enviarLinkUsuario(c);
-		System.out.println("Video Enviado :" + c.toString());
+		//CocaColaManager cm = new CocaColaManager(false);
+		//cm.enviarLinkUsuario(c);
+		//System.out.println("Video Enviado :" + c.toString());
 
 	}
 

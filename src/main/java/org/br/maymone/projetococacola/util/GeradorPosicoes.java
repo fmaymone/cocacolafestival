@@ -127,18 +127,14 @@ public class GeradorPosicoes {
 			if (i < size - 1) {
 
 				JsonObject first = jArray.get(i).getAsJsonObject();
-				JsonObject second = jArray.get(i + 1).getAsJsonObject();
-
-				String inicio = first.getAsJsonObject().get("t").getAsString();
-				String fim = second.getAsJsonObject().get("t").getAsString();
-
-				Integer tempoInicial = getValorTimeStamp(inicio);
-				Integer tempoFinal = getValorTimeStamp(fim);
+				
+				String tempo = first.getAsJsonObject().get("t").getAsString();
+				Integer tempoInicial = getValorTimeStamp(tempo);
+				
 
 				DadosImagem dadosTemp = new DadosImagem();
 				dadosTemp.setTempoInicial(new Long(tempoInicial));
-				dadosTemp.setTempoFinal(new Long(tempoInicial));
-				
+								
 				JsonArray tracking = first.getAsJsonObject().get("val").getAsJsonArray();
 				Integer x = getValorTimeStamp(tracking.get(0).getAsString());
 				Integer y = getValorTimeStamp(tracking.get(1).getAsString());
@@ -197,6 +193,8 @@ public class GeradorPosicoes {
 		return retorno;
 
 	}
+	
+	
 	
 
 }

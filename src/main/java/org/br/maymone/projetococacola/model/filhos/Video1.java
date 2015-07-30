@@ -10,6 +10,7 @@ import org.br.maymone.projetococacola.model.VideoGerado;
 import org.br.maymone.projetococacola.util.DadosImagem;
 import org.br.maymone.projetococacola.util.GeradorPosicoes;
 import org.br.maymone.projetococacola.util.Propriedades;
+import org.br.maymone.projetococacola.util.TextToImage;
 
 import com.xuggle.mediatool.IMediaReader;
 import com.xuggle.mediatool.IMediaTool;
@@ -51,14 +52,14 @@ public class Video1 extends VideoGerado {
 		GeradorPosicoes g = getgPosicoes();
 		// abrir o video original
 		// create a media reader
-		
+		String nomeUsuario = super.getCocaCola().getJsonCoca().getUsuFirstName().toString();
 		String idVideoTemp = "1";
 		
 		
 		//IMediaReader mediaReader = ToolFactory.makeReader(prop
 			//	.getUrlVideosRespostas()[0]);
 		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(classLoader.getResource(prop.getProp().getProperty("prop.pergunta.1.resposta")).getPath());
+		File file = new File(super.getUrlCena1());
 		
 		
 		IMediaReader mediaReader = ToolFactory.makeReader(file.getAbsolutePath());
@@ -76,22 +77,25 @@ public class Video1 extends VideoGerado {
 		
 		String id = "Olar";
 		
-		boolean success = (new File(folder.getAbsolutePath() + "/" + super.getCocaCola().getNome())).mkdirs();
+		boolean success = (new File(folder.getAbsolutePath() + "/" + nomeUsuario)).mkdirs();
 		if (!success) {
 			System.out.println("Erro ao criar folder");
 		}
 		
-		System.out.println("Pasta temporária: "+ folder.getAbsolutePath() + "/" + super.getCocaCola().getNome());
+		System.out.println("Pasta temporária: "+ folder.getAbsolutePath() + "/" + nomeUsuario);
 		
-		String urlTemp = folder.getAbsolutePath() +  "\\"+ super.getCocaCola().getNome() + "/"+"video1.mov"; 
+		String urlTemp = folder.getAbsolutePath() +  "\\"+ nomeUsuario + "/"+"video1.mov"; 
 
 		IMediaWriter mediaWriter = ToolFactory.makeWriter(urlTemp, mediaReader);
 
+		String url = "http://festivaldomeujeito.com.br/site/uploads/festival/" + super.getCocaCola().getJsonCoca().getUsuFaceId()+"/avatar_crop.png";
+		System.out.println(url);
+		super.getCocaCola().setImagem(url);
 		
-		super.getCocaCola().setImagem("http://festivaldomeujeito.com.br/site/uploads/festival/10205026925565317/avatar_crop.jpg");
 		
+		System.out.println("Usuario a ser impresso:" + nomeUsuario);
 
-		IMediaTool imageMediaTool = new StaticImageMediaTool(super.getCocaCola().getImagem());
+		IMediaTool imageMediaTool = new StaticImageMediaTool(nomeUsuario);
 		// Adicionou um listener com a imagem estatica
 		mediaReader.addListener(imageMediaTool);
 		mediaReader.addListener(mediaWriter);
@@ -120,14 +124,15 @@ public class Video1 extends VideoGerado {
 
 		public int indice = 0;
 
-		public StaticImageMediaTool(BufferedImage i) throws Exception {
+		public StaticImageMediaTool(String texto) throws Exception {
 
 			System.out.println("Entrou no laço de pegar a imagem");
 
 			gp = getgPosicoes();
-		
 
-			logoImage = i;
+			TextToImage ti = new TextToImage();
+
+			logoImage = ti.gerarImagemTexto("Festival do "+ texto);
 
 			System.out.println("Pegou Imagem corretamente de texto");
 
@@ -156,26 +161,29 @@ public class Video1 extends VideoGerado {
 
 			int size = dados.size();
 			
-			int xAjuste = -100;
-			int yAjuste = -150;
+			
+			
+			int xAjuste = 0;
+			int yAjuste = 0;
 			if(indice < size){
 			dadosTemp = dados.get(indice);
 			
-			Graphics2D g2d=(Graphics2D)g;       // Create a Java2D version of g.
-			g2d.translate(170, 0);              // Translate the center of our coordinates.
-			g2d.rotate(1);                      // Rotate the image by 1 radian.
+		
+			System.out.println("tempo do video:"+ now);
+			System.out.println("tempo do gerad:"+ dadosTemp.getTempoInicial());
 			
+					if((dadosTemp.getX() <= 1280) &&(dadosTemp.getY() <= 720) ){
 			
-					g2d.drawImage(logoImage, dadosTemp.getX() + xAjuste, dadosTemp.getY() + yAjuste,
+						System.out.println("Riscou");
+						g.drawImage(logoImage, dadosTemp.getX() + xAjuste, dadosTemp.getY() + yAjuste,
+					
 							null);
-			
+						}
+					System.out.println("posicao gerada" + dadosTemp.getX() +","+ dadosTemp.getY());
+					System.out.println("---------");
 					
 					indice++;
 
-			}else{
-				g.drawImage(logoImage, 0, 0,
-						null);
-				
 			}
 			
 

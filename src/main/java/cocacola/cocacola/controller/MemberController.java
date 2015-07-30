@@ -23,7 +23,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Logger;
@@ -37,11 +36,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
 
-import org.br.maymone.projetococacola.media.Concatenate;
 import org.br.maymone.projetococacola.model.ClasseJsonCoca;
 import org.br.maymone.projetococacola.model.CocaCola;
 import org.br.maymone.projetococacola.model.CocaCola.Status;
 import org.br.maymone.projetococacola.model.Member;
+import org.br.maymone.projetococacola.model.VideoGerado;
 import org.br.maymone.projetococacola.model.filhos.Video1;
 import org.br.maymone.projetococacola.mvc.businnes.CocaColaManager;
 import org.br.maymone.projetococacola.mvc.businnes.VideoManager;
@@ -49,7 +48,6 @@ import org.br.maymone.projetococacola.mvc.businnes.YouTubeManager;
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
 
-import cocacola.cocacola.rest.CocaColaRest;
 import cocacola.cocacola.service.MemberRegistration;
 
 import com.google.gson.Gson;
@@ -142,10 +140,10 @@ public class MemberController {
 		return errorMessage;
 	}
 
-	public void teste() throws FileNotFoundException {
+	public void teste() throws Exception {
 		log.info("Testando ");
 		
-		
+		//testarRestCoca();
 	/*	Concatenate conc = new Concatenate();
 		URL in = Thread.currentThread().getContextClassLoader().getResource("videos\\");
 		
@@ -158,14 +156,29 @@ public class MemberController {
 		CocaCola c = new CocaCola(cal, "asdasdasdasd", "url1", "Paul",
 				Status.RECEBIDA);
 		
-		c.setCor(cocaCola.getCor());
-		c.setNome(cocaCola.getNome());
-		c.setSexo(cocaCola.getSexo());
-		System.out.println(cocaCola.toString());
+		 
+		ClientRequest request = new ClientRequest("http://festivaldomeujeito.com.br/server/index.php/festival/user/format/json");
+		ClientResponse<String> response = request.get(String.class);
+		
+		
+		Gson gson = new Gson();
+	    JsonParser parser = new JsonParser();
+	    JsonArray jArray = parser.parse(response.getEntity()).getAsJsonArray();
+	    
+	    JsonElement obj = jArray.get(0);
+	    JsonElement jelem = gson.fromJson(obj, JsonElement.class);
+    	JsonObject jobj = jelem.getAsJsonObject();
+    	System.out.println(jobj.get("mon_pergunta_1"));
+    	ClasseJsonCoca cocaJson = gson.fromJson(obj, ClasseJsonCoca.class);
+    	c.setJsonCoca(cocaJson);
+	    	
+	    	
+
 		
 		
 			 try {
-				videoManager.gerarVideos(c);
+				VideoManager vm = new VideoManager();
+				vm.gerarVideos(c);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -268,6 +281,25 @@ public class MemberController {
 		 
 		 try {
 			 
+			 
+			 	
+
+
+			 Calendar cal = Calendar.getInstance();
+				Date date = cal.getTime();
+				CocaCola c = new CocaCola(cal, "asdasdasdasd", "url1", "Paul",
+						Status.RECEBIDA);
+				
+				c.setCor(cocaCola.getCor());
+				c.setNome(cocaCola.getNome());
+				c.setSexo(cocaCola.getSexo());
+				System.out.println(cocaCola.toString());
+				
+				
+					 
+				
+				VideoGerado vg = new VideoGerado();
+						VideoManager vm = new VideoManager();
 			
 			 
 			ClientRequest request = new ClientRequest("http://festivaldomeujeito.com.br/server/index.php/festival/user/format/json");
@@ -290,11 +322,22 @@ public class MemberController {
 		    	System.out.println(jobj.get("mon_pergunta_1"));
 		    	ClasseJsonCoca coca = gson.fromJson(obj, ClasseJsonCoca.class);
 		    	System.out.println(coca.getMonPergunta1());
+		    	c.setJsonCoca(coca);
+		    	vg.setCocaCola(c);
+		    	System.out.println(vg.getUrlCena2());
+		    	System.out.println(vg.getUrlCena3());
+		    	System.out.println(vg.getUrlCena4());
+		    	System.out.println(vg.getUrlCena5());
+		    	System.out.println(vg.getUrlCena6());
+		    	
+		    	
 		    	
 		    	
 		    	
 		    	
 		    }
+		    
+		    
 			
 			
 			

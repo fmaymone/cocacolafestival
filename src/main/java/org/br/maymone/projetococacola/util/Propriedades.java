@@ -63,19 +63,10 @@ public class Propriedades {
 			login = prop.getProperty("prop.server.login");
 			host = prop.getProperty("prop.server.host");
 			password = prop.getProperty("prop.server.password");
-			urlVideosRespostas = new String[5];
-			// array com todas as respostas
-			urlVideosRespostas[0] = prop
-					.getProperty("prop.pergunta.1.resposta");
-			urlVideosRespostas[1] = prop
-					.getProperty("prop.pergunta.2.resposta");
-			urlVideosRespostas[2] = prop
-					.getProperty("prop.pergunta.3.resposta");
-			urlVideosRespostas[3] = prop
-					.getProperty("prop.pergunta.4.resposta");
-			urlVideosRespostas[4] = prop
-					.getProperty("prop.pergunta.5.resposta");
+			
+			
 
+			// array com todas as respostas
 			numeroCenas = new Integer(prop.getProperty("prop.numeroCenas"));
 
 			System.out.println(this.toString());
