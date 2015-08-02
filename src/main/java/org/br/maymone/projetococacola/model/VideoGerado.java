@@ -113,7 +113,7 @@ public class VideoGerado {
 
 			try {
 				Video3 video;
-				video = new Video3(cocaCola);
+				video = new Video3();
 				video.gerar();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -124,7 +124,7 @@ public class VideoGerado {
 		case 4:
 			try {
 				Video4 video;
-				video = new Video4(cocaCola);
+				video = new Video4();
 				video.gerar();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -134,22 +134,14 @@ public class VideoGerado {
 		case 5:
 			try {
 				Video5 video;
-				video = new Video5(cocaCola);
+				video = new Video5();
 				video.gerar();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
-		case 6:
-			try {
-				Video6 video;
-				video = new Video6(cocaCola);
-				video.gerar();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		
 
 		}
 	}
@@ -182,6 +174,7 @@ public class VideoGerado {
 
 		retorno += urlBaseVideos +"//";
 		retorno += "cena2" + "//";
+		retorno += c.getMonPergunta1() + "//";
 		retorno += c.getUsuGender() + "//";
 		retorno += c.getMonPergunta3() + "//";
 		retorno +=  "video1.mov";
@@ -218,7 +211,9 @@ public class VideoGerado {
 		retorno += urlBaseVideos +"//";
 		ClasseJsonCoca c = this.getCocaCola().getJsonCoca();
 		// Feminino - Camisa 1
+		
 		retorno += "cena4" + "//";
+		retorno += c.getMonPergunta4() + "//";
 		retorno += c.getUsuGender() + "//";
 		retorno += c.getMonPergunta3() + "//";
 		retorno += "video1.mov";
@@ -238,10 +233,10 @@ public class VideoGerado {
 		
 		retorno += urlBaseVideos +"//";
 		retorno += "cena5" + "//";
-		retorno += c.getMonAmbiente() + "//";
+		retorno += c.getMonPergunta5() + "//";
 		retorno += c.getUsuGender() + "//";
 		retorno += c.getMonPergunta3() + "//";
-		retorno += "video1.mov";
+		retorno +=  "video1.mov";
 		
 		File file = new File(retorno);
 		System.out.println(retorno);

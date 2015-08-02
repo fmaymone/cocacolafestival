@@ -65,7 +65,7 @@ public class VideoManager {
 
 		this.setCocaCola(c);
 		numCenas = prop.getNumeroCenas();
-		numCenas = 1;
+		numCenas = 5;
 		// pra cada cena vou gerar o video
 		for (int i = 0; i < numCenas.intValue(); i++) {
 
@@ -75,7 +75,10 @@ public class VideoManager {
 			temp.gerar(i + 1);
 
 		}
+		
+		
 
+		System.out.println("Olar. Fim");
 		concatenarVideos();
 		YouTubeManager ytm = new YouTubeManager();
 
@@ -83,16 +86,18 @@ public class VideoManager {
 		File file = new File(classLoader.getResource("temp/").getPath());
 		String base = file.getAbsolutePath();
 
-		String source1 = base + "\\" + c.getNome() + "\\" + "video123456"
-				+ prop.getProp().getProperty("prop.formato.video.input");
+		String source1 = classLoader.getResourceAsStream("temp"
+				+ "\\" + c.getJsonCoca().getMonUsuFaceId().toString() + "\\" + "video12345.mov").toString();
 
 		InputStream videoPublicar = classLoader.getResourceAsStream("temp"
-				+ "\\" + c.getNome() + "\\" + "video123456.mov");
+				+ "\\" + c.getJsonCoca().getMonUsuFaceId().toString() + "\\" + "video12345.mov");
+		
 
-		//String s = ytm.publicarVideo(videoPublicar);
 
-		//c.setUrlVideo(s);
-		//System.out.println("Video Publicado , com id:" + s);
+		String s = ytm.publicarVideo(videoPublicar);
+
+		c.setUrlVideo(s);
+		System.out.println("Video Publicado , com id:" + s);
 
 		// enviar arquivos pra base
 		//CocaColaManager cm = new CocaColaManager(false);
@@ -124,9 +129,9 @@ public class VideoManager {
 		try {
 			conc.concatenar(1, 2, getCocaCola());
 			conc.concatenar(3, 4, getCocaCola());
-			conc.concatenar(5, 6, getCocaCola());
+			
 			conc.concatenar(12, 34, getCocaCola());
-			conc.concatenar(1234, 56, getCocaCola());
+			conc.concatenar(1234, 5, getCocaCola());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

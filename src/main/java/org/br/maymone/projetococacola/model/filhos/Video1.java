@@ -54,7 +54,7 @@ public class Video1 extends VideoGerado {
 		// create a media reader
 		String nomeUsuario = super.getCocaCola().getJsonCoca().getUsuFirstName().toString();
 		String idVideoTemp = "1";
-		
+		String idUsuarioPasta = super.getCocaCola().getJsonCoca().getUsuFaceId().toString();
 		
 		//IMediaReader mediaReader = ToolFactory.makeReader(prop
 			//	.getUrlVideosRespostas()[0]);
@@ -75,16 +75,16 @@ public class Video1 extends VideoGerado {
 		File folder = new File(classLoader.getResource("temp/").getPath());		
 		
 		
-		String id = "Olar";
 		
-		boolean success = (new File(folder.getAbsolutePath() + "/" + nomeUsuario)).mkdirs();
+		
+		boolean success = (new File(folder.getAbsolutePath() + "/" + idUsuarioPasta)).mkdirs();
 		if (!success) {
 			System.out.println("Erro ao criar folder");
 		}
 		
-		System.out.println("Pasta temporária: "+ folder.getAbsolutePath() + "/" + nomeUsuario);
+		System.out.println("Pasta temporária: "+ folder.getAbsolutePath() + "/" + idUsuarioPasta);
 		
-		String urlTemp = folder.getAbsolutePath() +  "\\"+ nomeUsuario + "/"+"video1.mov"; 
+		String urlTemp = folder.getAbsolutePath() +  "\\"+ idUsuarioPasta + "/"+"video1.mov"; 
 
 		IMediaWriter mediaWriter = ToolFactory.makeWriter(urlTemp, mediaReader);
 
@@ -163,8 +163,8 @@ public class Video1 extends VideoGerado {
 			
 			
 			
-			int xAjuste = 0;
-			int yAjuste = 0;
+			int xAjuste = 25;
+			int yAjuste = -160;
 			if(indice < size){
 			dadosTemp = dados.get(indice);
 			

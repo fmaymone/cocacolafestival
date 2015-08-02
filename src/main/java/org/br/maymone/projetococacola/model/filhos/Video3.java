@@ -8,7 +8,6 @@ import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
-import org.br.maymone.projetococacola.model.CocaCola;
 import org.br.maymone.projetococacola.model.VideoGerado;
 import org.br.maymone.projetococacola.util.DadosImagem;
 import org.br.maymone.projetococacola.util.GeradorPosicoes;
@@ -27,18 +26,20 @@ public class Video3 extends VideoGerado {
 	private String nomeGerar;
 	private String idVideoTemp;
 
-	public Video3(CocaCola coca) throws Exception {
-		this.setIdVideo(3);
-		this.setgPosicoes(new GeradorPosicoes(3));
-		super.setCocaCola(coca);
+	public Video3() throws Exception {
+		super.setIdVideo(3);
+		super.setgPosicoes(new GeradorPosicoes(3));
 		
+	
 	}
+
+	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
 	}
-
+	
 	@Override
 	public void gerar() throws Exception {
 
@@ -49,13 +50,10 @@ public class Video3 extends VideoGerado {
 	// create a media reader
 	
 	String idVideoTemp = "3";
+	String idUsuarioPasta = super.getCocaCola().getJsonCoca().getUsuFaceId().toString();
 	
-	
-	//IMediaReader mediaReader = ToolFactory.makeReader(prop
-		//	.getUrlVideosRespostas()[0]);
 	ClassLoader classLoader = getClass().getClassLoader();
-	File file = new File(classLoader.getResource(prop.getProp().getProperty("prop.pergunta.3.resposta")).getPath());
-	//URL in = Thread.currentThread().getContextClassLoader().getResource(prop.getProp().getProperty("prop.pergunta.2.resposta"));
+	File file = new File(super.getUrlCena3());
 	
 	IMediaReader mediaReader = ToolFactory.makeReader(file.getAbsolutePath());
 
@@ -69,26 +67,42 @@ public class Video3 extends VideoGerado {
 	
 	
 	File folder = new File(classLoader.getResource("temp/").getPath());		
-	String id = super.getCocaCola().getNome();
+	
+			
 	
 	
-	boolean success = (new File(folder.getAbsolutePath() + "/" + super.getCocaCola().getNome())).mkdirs();
+	
+	
+	boolean success = (new File(folder.getAbsolutePath() + "/" + idUsuarioPasta)).mkdirs();
 	if (!success) {
 		System.out.println("Erro ao criar folder");
 	}
 	
-	System.out.println("Pasta temporária: "+ folder.getAbsolutePath() + "/" + super.getCocaCola().getNome());
+	System.out.println("Pasta temporária: "+ folder.getAbsolutePath() + "/" + idUsuarioPasta);
 	
-	String urlTemp = folder.getAbsolutePath() +  "/"+ super.getCocaCola().getNome() + "/"+"video3.mov"; 
+	String urlTemp = folder.getAbsolutePath() +  "\\"+ idUsuarioPasta + "/"+"video3.mov"; 
 
 	IMediaWriter mediaWriter = ToolFactory.makeWriter(urlTemp, mediaReader);
 
-	String nomeGerado = "Video3	";
+	String url = "http://festivaldomeujeito.com.br/site/uploads/festival/" + super.getCocaCola().getJsonCoca().getUsuFaceId()+"/avatar_crop.png";
+	System.out.println(url);
+	super.getCocaCola().setImagem(url);
+	
+	
+	
 
-	IMediaTool imageMediaTool = new StaticImageMediaTool(nomeGerado);
+	IMediaTool imageMediaTool = new StaticImageMediaTool(super.getCocaCola().getImagem());
 	// Adicionou um listener com a imagem estatica
 	mediaReader.addListener(imageMediaTool);
 	mediaReader.addListener(mediaWriter);
+
+	// Adiciona o listener do nome
+
+	// Adiciona o listener do nome
+
+	
+	
+	
 
 	// Adiciona o listener do nome
 	System.out.println("------------------------Gerando Video 3 -------------- ");
@@ -107,17 +121,17 @@ private static class StaticImageMediaTool extends MediaToolAdapter {
 
 	public int indice = 0;
 
-	public StaticImageMediaTool(String texto) throws Exception {
+	public StaticImageMediaTool(BufferedImage im) throws Exception {
 
 		System.out.println("Entrou no laço de pegar a imagem");
 
 		gp = getgPosicoes();
 
-		TextToImage ti = new TextToImage();
+		logoImage = im;
 
-		logoImage = ti.gerarImagemTexto(texto);
+		
 
-		System.out.println("Pegou Imagem corretamente de texto");
+		
 
 	}
 
@@ -139,43 +153,44 @@ private static class StaticImageMediaTool extends MediaToolAdapter {
 
 		DadosImagem dadosTemp = new DadosImagem();
 
-		if (indice < dados.size()) {
+		System.out.println("------------------------Gerando Video 3-------------- ");
+		
 
-			dadosTemp = dados.get(indice);
-		} else {
-
-			dadosTemp = new DadosImagem(new Long(0), new Long(0),
-					new Integer(0), new Integer(0));
-		}
-
-		// se o tempo for maior que o inicial, verifica se foi maior que o
-		// final. Se for, avança
-		// na lista. Senao, está no intervalo, ou seja, desenhará.
-		if (dadosTemp.getTempoInicial().longValue() * 1000 <= now) {
-
-			System.out.println("Tempo do Video: " + now + " Elemento: "
-					+ dadosTemp.toString());
-			if (dadosTemp.getTempoFinal().intValue() * 1000 >= now) {
-				System.out.println("Desenhou, pois está no tempo " + now
-						+ dadosTemp.toString());
-				g.drawImage(logoImage, dadosTemp.getX(), dadosTemp.getY(),
+		int size = dados.size();
+		
+		
+		
+		int xAjuste = -30;
+		int yAjuste = -35;
+		if(indice < size){
+		dadosTemp = dados.get(indice);
+		
+	
+		System.out.println("tempo do video:"+ now);
+		System.out.println("tempo do gerad:"+ dadosTemp.getTempoInicial());
+		
+				if((dadosTemp.getX() <= 1280) &&(dadosTemp.getY() <= 720) ){
+		
+					System.out.println("Riscou");
+					g.drawImage(logoImage, dadosTemp.getX() + xAjuste, dadosTemp.getY() + yAjuste,60,60,
+				
 						null);
-			} else {
-				// passou do final, entao anda a lista
-				System.out
-						.println("Não desenhou, pois passou do tempo e vai agora andar o temp "
-								+ now + dadosTemp.toString());
+					}
+				System.out.println("posicao gerada" + dadosTemp.getX() +","+ dadosTemp.getY());
+				System.out.println("---------");
+				
 				indice++;
 
-			}
 		}
+		
 
 		// call parent which will pass the video onto next tool in chain
 		super.onVideoPicture(event);
 
 	}
 
+}
 
 }
-}
+
 

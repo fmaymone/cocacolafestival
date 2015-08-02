@@ -22,7 +22,7 @@ public class TextToImage {
 
 	        img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
 	        Graphics2D g2d = img.createGraphics();
-	        Font font = new Font("Arial", Font.PLAIN, 70);
+	        Font font = new Font("Arial", Font.PLAIN, 45);
 	        
 	        g2d.setFont(font);
 	        FontMetrics fm = g2d.getFontMetrics();

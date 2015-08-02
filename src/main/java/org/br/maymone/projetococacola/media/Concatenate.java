@@ -76,19 +76,19 @@ public class Concatenate {
 		
 		String base = file.getAbsolutePath();
 
-		String source1 = base + "\\" + coca.getNome()+ "\\" + "video"
+		String source1 = base + "\\" + coca.getJsonCoca().getUsuFaceId().toString()+ "\\" + "video"
 				+ new Integer(video1).toString() +"."
 				+ prop.getProp().getProperty("prop.formato.video.input");
 		File a = new File(source1);
 		
-		String source2 = base + "\\" + coca.getNome() + "\\" + "video"
+		String source2 = base + "\\" + coca.getJsonCoca().getUsuFaceId().toString() + "\\" + "video"
 				+ new Integer(video2).toString() +"."
 				+ prop.getProp().getProperty("prop.formato.video.input");
 		
 		File b = new File(source2);
 		
 		//gera um resultado como video12 com a concatenacao de 1 e 2
-		String resultado =  base + "\\" + coca.getNome()  + "\\" + "video"
+		String resultado =  base + "\\" + coca.getJsonCoca().getUsuFaceId().toString()  + "\\" + "video"
 				+ new Integer(video1).toString() + new Integer(video2).toString()+"."
 				+ prop.getProp().getProperty("prop.formato.video.input");
 		File c = new File(resultado);
@@ -139,8 +139,8 @@ public class Concatenate {
 
 		final int videoStreamIndex = 0;
 		final int videoStreamId = 0;
-		final int width = 1920;
-		final int height = 1080;
+		final int width = 1280;
+		final int height = 720;
 
 		// audio parameters
 
