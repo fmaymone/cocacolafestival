@@ -1,37 +1,27 @@
 package org.br.maymone.projetococacola.mvc.businnes;
 
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.logging.Logger;
 
-import javax.ejb.Stateless;
+import javax.enterprise.inject.Model;
 import javax.inject.Inject;
 
 import org.br.maymone.projetococacola.media.Concatenate;
 import org.br.maymone.projetococacola.model.CocaCola;
 import org.br.maymone.projetococacola.model.VideoGerado;
-import org.br.maymone.projetococacola.util.DadosImagem;
 import org.br.maymone.projetococacola.util.GeradorPosicoes;
 import org.br.maymone.projetococacola.util.Propriedades;
-import org.br.maymone.projetococacola.util.TextToImage;
+import org.br.maymone.projetococacola.util.VideoAudioConcatenator;
 
-import com.xuggle.mediatool.IMediaReader;
-import com.xuggle.mediatool.IMediaTool;
 import com.xuggle.mediatool.IMediaWriter;
-import com.xuggle.mediatool.MediaToolAdapter;
-import com.xuggle.mediatool.ToolFactory;
-import com.xuggle.mediatool.demos.ConcatenateAudioAndVideo;
-import com.xuggle.mediatool.event.IVideoPictureEvent;
 import com.xuggle.xuggler.ICodec;
 import com.xuggle.xuggler.IContainer;
 import com.xuggle.xuggler.IStream;
 import com.xuggle.xuggler.IStreamCoder;
 
+@Model
 public class VideoManager {
 
 	private static IMediaWriter mediaWriter;
@@ -39,6 +29,9 @@ public class VideoManager {
 	private static Propriedades prop;
 
 	private static Integer numCenas;
+	
+	@Inject
+	private Logger log;
 
 	@Inject
 	private static YouTubeManager ytm;
@@ -63,6 +56,8 @@ public class VideoManager {
 		// LinkedHashSet<VideoGerado>();
 		Propriedades prop = new Propriedades();
 
+		
+		
 		this.setCocaCola(c);
 		numCenas = prop.getNumeroCenas();
 		numCenas = 5;
@@ -84,17 +79,21 @@ public class VideoManager {
 
 		ClassLoader classLoader = getClass().getClassLoader();
 		File file = new File(classLoader.getResource("temp/").getPath());
+		File audioFile = new File(classLoader.getResource("jingle.aif").getPath());
+		
 		String base = file.getAbsolutePath();
+		
+		String source1 = base + "\\" + c.getJsonCoca().getUsuFaceId().toString()+ "\\" +"video12345.mov";
 
-		String source1 = classLoader.getResourceAsStream("temp"
-				+ "\\" + c.getJsonCoca().getMonUsuFaceId().toString() + "\\" + "video12345.mov").toString();
+		String out = base + "\\" + c.getJsonCoca().getUsuFaceId().toString()+ "\\" +"video12345audio.mov";
+		VideoAudioConcatenator vac = new VideoAudioConcatenator();
+		vac.concatenar(source1, audioFile.getPath(), out);
 
-		InputStream videoPublicar = classLoader.getResourceAsStream("temp"
-				+ "\\" + c.getJsonCoca().getMonUsuFaceId().toString() + "\\" + "video12345.mov");
+		InputStream videoPublicar = classLoader.getResourceAsStream("temp\\" + c.getJsonCoca().getUsuFaceId().toString()+ "\\" +"video12345audio.mov");
 		
 
-
-		String s = ytm.publicarVideo(videoPublicar);
+		
+		String s = ytm.publicarVideo(videoPublicar, c);
 
 		c.setUrlVideo(s);
 		System.out.println("Video Publicado , com id:" + s);

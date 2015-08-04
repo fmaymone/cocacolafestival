@@ -56,8 +56,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-
-
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
 // Read more about the @Model stereotype in this FAQ:
@@ -99,7 +97,7 @@ public class MemberController {
 	public void initNewMember() {
 		newMember = new Member();
 		cocaCola = new CocaCola();
-		
+
 	}
 
 	public void register() throws Exception {
@@ -142,49 +140,49 @@ public class MemberController {
 
 	public void teste() throws Exception {
 		log.info("Testando ");
-		
-		//testarRestCoca();
-	/*	Concatenate conc = new Concatenate();
-		URL in = Thread.currentThread().getContextClassLoader().getResource("videos\\");
-		
-		conc.concatenate(in.getPath()+"video1.mp4", in.getPath()+"video2.mp4", in.getPath()+"teste.mp4");*/
-		
-			
+
+		// testarRestCoca();
+		/*
+		 * Concatenate conc = new Concatenate(); URL in =
+		 * Thread.currentThread().
+		 * getContextClassLoader().getResource("videos\\");
+		 * 
+		 * conc.concatenate(in.getPath()+"video1.mp4",
+		 * in.getPath()+"video2.mp4", in.getPath()+"teste.mp4");
+		 */
+
+		log.info("Olar");
 		CocaCola coca = new CocaCola();
 		Calendar cal = Calendar.getInstance();
 		Date date = cal.getTime();
 		CocaCola c = new CocaCola(cal, "asdasdasdasd", "url1", "Paul",
 				Status.RECEBIDA);
-		
-		 
-		ClientRequest request = new ClientRequest("http://festivaldomeujeito.com.br/server/index.php/festival/user/format/json");
-		ClientResponse<String> response = request.get(String.class);
-		
-		
-		Gson gson = new Gson();
-	    JsonParser parser = new JsonParser();
-	    JsonArray jArray = parser.parse(response.getEntity()).getAsJsonArray();
-	    
-	    JsonElement obj = jArray.get(0);
-	    JsonElement jelem = gson.fromJson(obj, JsonElement.class);
-    	JsonObject jobj = jelem.getAsJsonObject();
-    	System.out.println(jobj.get("mon_pergunta_1"));
-    	ClasseJsonCoca cocaJson = gson.fromJson(obj, ClasseJsonCoca.class);
-    	c.setJsonCoca(cocaJson);
-	    	
-	    	
 
-		
-		
-			 try {
+		ClientRequest request = new ClientRequest(
+				"http://festivaldomeujeito.com.br/server/index.php/festival/user/format/json");
+		ClientResponse<String> response = request.get(String.class);
+
+		try {
+			Gson gson = new Gson();
+			JsonParser parser = new JsonParser();
+			JsonArray jArray = parser.parse(response.getEntity())
+					.getAsJsonArray();
+
+			for (JsonElement obj : jArray) {
+				
+				JsonElement jelem = gson.fromJson(obj, JsonElement.class);
+				JsonObject jobj = jelem.getAsJsonObject();
+				System.out.println(jobj.get("mon_pergunta_1"));
+				ClasseJsonCoca cocaJson = gson.fromJson(obj,
+						ClasseJsonCoca.class);
+				c.setJsonCoca(cocaJson);
 				VideoManager vm = new VideoManager();
 				vm.gerarVideos(c);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-		
-		
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -200,7 +198,7 @@ public class MemberController {
 
 		try {
 			Video1 v = new Video1();
-			
+
 			v.gerarVideo();
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
@@ -246,112 +244,84 @@ public class MemberController {
 		}
 
 	}
-	
-	public void upload(){
-		 
+
+	public void upload() {
+
 		InputStream inputStream;
 		try {
 			inputStream = imagem.getInputStream();
-			FileOutputStream outputStream = new FileOutputStream("tempIm");  
-	          
-	        byte[] buffer = new byte[4096];          
-	        int bytesRead = 0;  
-	        while(true) {                          
-	            bytesRead = inputStream.read(buffer);  
-	            if(bytesRead > 0) {  
-	                outputStream.write(buffer, 0, bytesRead);  
-	            }else {  
-	                break;  
-	            }                         
-	        }  
-	        outputStream.close();  
-	        inputStream.close();  
+			FileOutputStream outputStream = new FileOutputStream("tempIm");
+
+			byte[] buffer = new byte[4096];
+			int bytesRead = 0;
+			while (true) {
+				bytesRead = inputStream.read(buffer);
+				if (bytesRead > 0) {
+					outputStream.write(buffer, 0, bytesRead);
+				} else {
+					break;
+				}
+			}
+			outputStream.close();
+			inputStream.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}          
-        
-         
-         
-    }
-	
-	public void testarRestCoca(){
-		
-		
-		 
-		 try {
-			 
-			 
-			 	
+		}
 
+	}
 
-			 Calendar cal = Calendar.getInstance();
-				Date date = cal.getTime();
-				CocaCola c = new CocaCola(cal, "asdasdasdasd", "url1", "Paul",
-						Status.RECEBIDA);
-				
-				c.setCor(cocaCola.getCor());
-				c.setNome(cocaCola.getNome());
-				c.setSexo(cocaCola.getSexo());
-				System.out.println(cocaCola.toString());
-				
-				
-					 
-				
-				VideoGerado vg = new VideoGerado();
-						VideoManager vm = new VideoManager();
-			
-			 
-			ClientRequest request = new ClientRequest("http://festivaldomeujeito.com.br/server/index.php/festival/user/format/json");
-			 
-			 
+	public void testarRestCoca() {
+
+		try {
+
+			Calendar cal = Calendar.getInstance();
+			Date date = cal.getTime();
+			CocaCola c = new CocaCola(cal, "asdasdasdasd", "url1", "Paul",
+					Status.RECEBIDA);
+
+			c.setCor(cocaCola.getCor());
+			c.setNome(cocaCola.getNome());
+			c.setSexo(cocaCola.getSexo());
+			System.out.println(cocaCola.toString());
+
+			VideoGerado vg = new VideoGerado();
+			VideoManager vm = new VideoManager();
+
+			ClientRequest request = new ClientRequest(
+					"http://festivaldomeujeito.com.br/server/index.php/festival/user/format/json");
+
 			ClientResponse<String> response = request.get(String.class);
-			
-			
+
 			Gson gson = new Gson();
-		    JsonParser parser = new JsonParser();
-		    JsonArray jArray = parser.parse(response.getEntity()).getAsJsonArray();
-		    
-		    for(JsonElement obj : jArray ){
-		    	
-		    	
-		    	System.out.println(obj.toString());
-		    	
-		    	JsonElement jelem = gson.fromJson(obj, JsonElement.class);
-		    	JsonObject jobj = jelem.getAsJsonObject();
-		    	System.out.println(jobj.get("mon_pergunta_1"));
-		    	ClasseJsonCoca coca = gson.fromJson(obj, ClasseJsonCoca.class);
-		    	System.out.println(coca.getMonPergunta1());
-		    	c.setJsonCoca(coca);
-		    	vg.setCocaCola(c);
-		    	System.out.println(vg.getUrlCena2());
-		    	System.out.println(vg.getUrlCena3());
-		    	System.out.println(vg.getUrlCena4());
-		    	System.out.println(vg.getUrlCena5());
-		    	System.out.println(vg.getUrlCena6());
-		    	
-		    	
-		    	
-		    	
-		    	
-		    	
-		    }
-		    
-		    
-			
-			
-			
-			
+			JsonParser parser = new JsonParser();
+			JsonArray jArray = parser.parse(response.getEntity())
+					.getAsJsonArray();
+
+			for (JsonElement obj : jArray) {
+
+				System.out.println(obj.toString());
+
+				JsonElement jelem = gson.fromJson(obj, JsonElement.class);
+				JsonObject jobj = jelem.getAsJsonObject();
+				System.out.println(jobj.get("mon_pergunta_1"));
+				ClasseJsonCoca coca = gson.fromJson(obj, ClasseJsonCoca.class);
+				System.out.println(coca.getMonPergunta1());
+				c.setJsonCoca(coca);
+				vg.setCocaCola(c);
+				System.out.println(vg.getUrlCena2());
+				System.out.println(vg.getUrlCena3());
+				System.out.println(vg.getUrlCena4());
+				System.out.println(vg.getUrlCena5());
+				System.out.println(vg.getUrlCena6());
+
+			}
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	     
-		
-		
-	
 
+	}
 
-}
-	
 }

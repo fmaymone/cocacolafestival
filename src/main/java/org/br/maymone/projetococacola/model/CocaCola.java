@@ -1,6 +1,7 @@
 package org.br.maymone.projetococacola.model;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -9,6 +10,7 @@ import java.util.Calendar;
 import javax.imageio.ImageIO;
 
 import com.restfb.types.Url;
+
 
 
 public class CocaCola {
@@ -148,19 +150,13 @@ public class CocaCola {
 		try {
 				
 			//ClassLoader classLoader = getClass().getClassLoader();
-			//File file = new File(classLoader.getResource("videos/200.png").getPath());
+			//File file = new File(classLoader.getResource("avatar_crop.png").getPath());
 			//String urlBaseVideos = file.getAbsolutePath();
-			URL url = new URL("http://festivaldomeujeito.com.br/site/uploads/festival/934089803315913/avatar_crop.png");
-		    imagem = ImageIO.read(url);
-			
-		    for (int y = 0; y < imagem.getHeight(); ++y) {
-		        for (int x = 0; x < imagem.getWidth(); ++x) {
-		            int argb = imagem.getRGB(x, y);
-		            if((argb & 0xFFFFFFFF) == 0xFFFFFFFF){ //if the pixel is transparent
-		            	imagem.setRGB(x, y, 0x00FFFFFF); // white color.00FFFFFF
-		            }
-		        }
-		    }
+			URL url = new URL("http://festivaldomeujeito.com.br/site/uploads/festival/" + getJsonCoca().getUsuFaceId() + "/avatar_crop.png");
+			//URL url = new URL("http://festivaldomeujeito.com.br/site/uploads/festival/934089803315913/avatar_crop.png");
+			//URL url = new URL(file.getAbsolutePath());
+			imagem = ImageIO.read(url);
+		
 		    
 		 
 			

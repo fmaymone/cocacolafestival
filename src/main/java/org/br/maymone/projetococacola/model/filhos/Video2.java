@@ -85,6 +85,9 @@ public class Video2 extends VideoGerado {
 
 		IMediaTool imageMediaTool = new StaticImageMediaTool(super
 				.getCocaCola().getImagem());
+		
+		mediaReader
+		.setBufferedImageTypeToGenerate(BufferedImage.TYPE_3BYTE_BGR);
 		// Adicionou um listener com a imagem estatica
 		mediaReader.addListener(imageMediaTool);
 		mediaReader.addListener(mediaWriter);

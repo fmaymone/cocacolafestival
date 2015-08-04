@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
+import org.br.maymone.projetococacola.model.CocaCola;
 import org.br.maymone.projetococacola.util.Propriedades;
 import org.mortbay.log.Log;
 
@@ -52,6 +53,16 @@ public class YouTubeManager {
 
 	/** Global instance of YouTube object to make all API requests. */
 	private static YouTube youtube;
+	
+	private static CocaCola coca;
+
+	public static CocaCola getCoca() {
+		return coca;
+	}
+
+	public static void setCoca(CocaCola coca) {
+		YouTubeManager.coca = coca;
+	}
 
 	private static String urlVideo;
 	@Inject
@@ -230,7 +241,7 @@ public class YouTubeManager {
 		return validNumber;
 	}
 
-	public String publicarVideo(InputStream input) {
+	public String publicarVideo(InputStream input, CocaCola c) {
 		// Scope required to upload to YouTube.
 		List<String> scopes = Lists
 				.newArrayList("https://www.googleapis.com/auth/youtube.upload");
@@ -257,7 +268,7 @@ public class YouTubeManager {
 			 * "unlisted" or "private" via API.
 			 */
 			VideoStatus status = new VideoStatus();
-			status.setPrivacyStatus("public");
+			status.setPrivacyStatus("unlisted");
 			videoObjectDefiningMetadata.setStatus(status);
 
 			// We set a majority of the metadata with the VideoSnippet object.
@@ -270,17 +281,13 @@ public class YouTubeManager {
 			 * and use your own standard names.
 			 */
 			Calendar cal = Calendar.getInstance();
-			snippet.setTitle("Test Upload via Java on " + cal.getTime());
-			snippet.setDescription("Video uploaded via YouTube Data API V3 using the Java library "
-					+ "on " + cal.getTime());
-
+			snippet.setTitle("Festival do Meu Jeito - " + c.getJsonCoca().getUsuName());
+			snippet.setDescription("Festival Coca-Cola");
 			// Set your keywords.
 			List<String> tags = new ArrayList<String>();
-			tags.add("test");
-			tags.add("example");
-			tags.add("java");
-			tags.add("YouTube Data API V3");
-			tags.add("erase me");
+			tags.add("cocacola");
+			tags.add("festival");
+			
 			snippet.setTags(tags);
 
 			// Set completed snippet to the video object.

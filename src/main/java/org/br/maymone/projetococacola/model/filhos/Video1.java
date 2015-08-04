@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
+import org.br.maymone.projetococacola.model.CocaCola;
 import org.br.maymone.projetococacola.model.VideoGerado;
 import org.br.maymone.projetococacola.util.DadosImagem;
 import org.br.maymone.projetococacola.util.GeradorPosicoes;
@@ -95,7 +96,7 @@ public class Video1 extends VideoGerado {
 		
 		System.out.println("Usuario a ser impresso:" + nomeUsuario);
 
-		IMediaTool imageMediaTool = new StaticImageMediaTool(nomeUsuario);
+		IMediaTool imageMediaTool = new StaticImageMediaTool(nomeUsuario, super.getCocaCola());
 		// Adicionou um listener com a imagem estatica
 		mediaReader.addListener(imageMediaTool);
 		mediaReader.addListener(mediaWriter);
@@ -124,7 +125,7 @@ public class Video1 extends VideoGerado {
 
 		public int indice = 0;
 
-		public StaticImageMediaTool(String texto) throws Exception {
+		public StaticImageMediaTool(String texto, CocaCola coca) throws Exception {
 
 			System.out.println("Entrou no laço de pegar a imagem");
 
@@ -132,6 +133,16 @@ public class Video1 extends VideoGerado {
 
 			TextToImage ti = new TextToImage();
 
+			String sexo = coca.getJsonCoca().getUsuGender().toString();
+			String preposicao = "do";
+				
+			if(sexo == "female"){
+				preposicao = "da";
+				
+			}
+				
+				
+			
 			logoImage = ti.gerarImagemTexto("Festival do "+ texto);
 
 			System.out.println("Pegou Imagem corretamente de texto");
