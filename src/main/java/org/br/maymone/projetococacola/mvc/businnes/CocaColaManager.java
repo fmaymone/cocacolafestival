@@ -51,10 +51,10 @@ public class CocaColaManager {
 
 	public CocaColaManager() {
 
-		System.out.println("Construindo CocaColaManager");
+		/*System.out.println("Construindo CocaColaManager");
 		EntityManagerFactory emf = Persistence
 				.createEntityManagerFactory("persistence");
-		em = emf.createEntityManager();
+		em = emf.createEntityManager();*/
 
 	}
 

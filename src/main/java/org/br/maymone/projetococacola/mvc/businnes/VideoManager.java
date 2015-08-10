@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import org.br.maymone.projetococacola.media.Concatenate;
 import org.br.maymone.projetococacola.model.CocaCola;
 import org.br.maymone.projetococacola.model.VideoGerado;
+import org.br.maymone.projetococacola.model.filhos.Video1;
 import org.br.maymone.projetococacola.util.GeradorPosicoes;
 import org.br.maymone.projetococacola.util.Propriedades;
 import org.br.maymone.projetococacola.util.VideoAudioConcatenator;
@@ -29,7 +30,7 @@ public class VideoManager {
 	private static Propriedades prop;
 
 	private static Integer numCenas;
-	
+
 	@Inject
 	private Logger log;
 
@@ -50,28 +51,26 @@ public class VideoManager {
 
 	public void gerarVideos(CocaCola c) throws Exception {
 
-		// FacebookUser fbu = c.getFacebookUser();
-
-		// LinkedHashSet<VideoGerado> listaVideosGerados = new
-		// LinkedHashSet<VideoGerado>();
 		Propriedades prop = new Propriedades();
 
-		
-		
 		this.setCocaCola(c);
 		numCenas = prop.getNumeroCenas();
 		numCenas = 5;
 		// pra cada cena vou gerar o video
 		for (int i = 0; i < numCenas.intValue(); i++) {
 
-			VideoGerado temp = new VideoGerado();
-			GeradorPosicoes g = new GeradorPosicoes(i + 1);
-			temp.setCocaCola(c);
-			temp.gerar(i + 1);
+			try {
+				VideoGerado temp = new VideoGerado();
+				GeradorPosicoes g = new GeradorPosicoes(i + 1);
+				temp.setCocaCola(c);
+				temp.gerar(i);
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		}
-		
-		
 
 		System.out.println("Olar. Fim");
 		concatenarVideos();
@@ -79,29 +78,33 @@ public class VideoManager {
 
 		ClassLoader classLoader = getClass().getClassLoader();
 		File file = new File(classLoader.getResource("temp/").getPath());
-		File audioFile = new File(classLoader.getResource("jingle.aif").getPath());
-		
-		String base = file.getAbsolutePath();
-		
-		String source1 = base + "\\" + c.getJsonCoca().getUsuFaceId().toString()+ "\\" +"video12345.mov";
+		File audioFile = new File(classLoader.getResource("jingle.aif")
+				.getPath());
 
-		String out = base + "\\" + c.getJsonCoca().getUsuFaceId().toString()+ "\\" +"video12345audio.mov";
+		String base = file.getAbsolutePath();
+
+		String source1 = base + "\\"
+				+ c.getJsonCoca().getUsuFaceId().toString() + "\\"
+				+ "video12345.mov";
+
+		String out = base + "\\" + c.getJsonCoca().getUsuFaceId().toString()
+				+ "\\" + "video12345audio.mov";
 		VideoAudioConcatenator vac = new VideoAudioConcatenator();
 		vac.concatenar(source1, audioFile.getPath(), out);
 
-		InputStream videoPublicar = classLoader.getResourceAsStream("temp\\" + c.getJsonCoca().getUsuFaceId().toString()+ "\\" +"video12345audio.mov");
-		
+		InputStream videoPublicar = classLoader.getResourceAsStream("temp\\"
+				+ c.getJsonCoca().getUsuFaceId().toString() + "\\"
+				+ "video12345audio.mov");
 
-		
 		String s = ytm.publicarVideo(videoPublicar, c);
 
 		c.setUrlVideo(s);
 		System.out.println("Video Publicado , com id:" + s);
 
 		// enviar arquivos pra base
-		//CocaColaManager cm = new CocaColaManager(false);
-		//cm.enviarLinkUsuario(c);
-		//System.out.println("Video Enviado :" + c.toString());
+		 CocaColaManager cm = new CocaColaManager(false);
+		 cm.enviarLinkUsuario(c);
+		 System.out.println("Video Enviado :" + c.toString());
 
 	}
 
@@ -128,7 +131,7 @@ public class VideoManager {
 		try {
 			conc.concatenar(1, 2, getCocaCola());
 			conc.concatenar(3, 4, getCocaCola());
-			
+
 			conc.concatenar(12, 34, getCocaCola());
 			conc.concatenar(1234, 5, getCocaCola());
 		} catch (IOException e) {

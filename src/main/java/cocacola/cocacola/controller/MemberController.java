@@ -141,6 +141,8 @@ public class MemberController {
 	public void teste() throws Exception {
 		log.info("Testando ");
 
+		gerarVideos();
+		//inserirElemento();
 		// testarRestCoca();
 		/*
 		 * Concatenate conc = new Concatenate(); URL in =
@@ -152,6 +154,31 @@ public class MemberController {
 		 */
 
 		log.info("Olar");
+		
+
+	}
+
+	public void testarArquivo() {
+
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource("nando.txt").getPath());
+		log.info(file.getAbsolutePath());
+
+	}
+
+	
+
+	public void inserirElemento() {
+
+		Calendar cal = Calendar.getInstance();
+		Date date = cal.getTime();
+		CocaCola c = new CocaCola(cal, "respostas", "url", "token");
+
+		cocaManager.salvarUsuario(c);
+
+	}
+	
+	public void gerarVideos() throws Exception{
 		CocaCola coca = new CocaCola();
 		Calendar cal = Calendar.getInstance();
 		Date date = cal.getTime();
@@ -183,38 +210,7 @@ public class MemberController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-	}
-
-	public void testarArquivo() {
-
-		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(classLoader.getResource("nando.txt").getPath());
-		log.info(file.getAbsolutePath());
-
-	}
-
-	public void gerarVideoTeste(CocaCola c) {
-
-		try {
-			Video1 v = new Video1();
-
-			v.gerarVideo();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-	}
-
-	public void inserirElemento() {
-
-		Calendar cal = Calendar.getInstance();
-		Date date = cal.getTime();
-		CocaCola c = new CocaCola(cal, "respostas", "url", "token");
-
-		cocaManager.salvarUsuario(c);
-
+		
 	}
 
 	public void testarBuffered(InputStream in) {

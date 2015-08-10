@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.br.maymone.projetococacola.model.CocaCola;
+import org.br.maymone.projetococacola.model.CocaColaException;
 import org.br.maymone.projetococacola.model.VideoGerado;
 import org.br.maymone.projetococacola.util.DadosImagem;
 import org.br.maymone.projetococacola.util.GeradorPosicoes;
@@ -46,7 +47,7 @@ public class Video1 extends VideoGerado {
 	}
 
 	@Override
-	public void gerar() throws Exception {
+	public void gerar() throws Exception, CocaColaException {
 
 		Propriedades prop = new Propriedades();
 		// pegar as posicoes
@@ -54,6 +55,11 @@ public class Video1 extends VideoGerado {
 		// abrir o video original
 		// create a media reader
 		String nomeUsuario = super.getCocaCola().getJsonCoca().getUsuFirstName().toString();
+		
+		if (nomeUsuario == null){
+			
+			throw new CocaColaException("Nome de Usuario Invalido" ,"nullpointer");
+		}
 		String idVideoTemp = "1";
 		String idUsuarioPasta = super.getCocaCola().getJsonCoca().getUsuFaceId().toString();
 		
@@ -61,6 +67,10 @@ public class Video1 extends VideoGerado {
 			//	.getUrlVideosRespostas()[0]);
 		ClassLoader classLoader = getClass().getClassLoader();
 		File file = new File(super.getUrlCena1());
+		
+		if(file == null){
+			throw new CocaColaException("Problema na URL da Cena1" ,"nullpointer");
+		}
 		
 		
 		IMediaReader mediaReader = ToolFactory.makeReader(file.getAbsolutePath());

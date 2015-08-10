@@ -33,6 +33,18 @@ public class GeradorPosicoes {
 		this.readJson();
 
 	}
+	public GeradorPosicoes(String nomeArquivo) throws Exception {
+
+		InputStream in = Thread.currentThread().getContextClassLoader()
+				.getResourceAsStream("timeline/" + nomeArquivo + ".json");
+
+		urlArquivoPropriedades = in;
+		dadosImagem = new ArrayList<DadosImagem>();
+
+		// logger.debug("Olar");
+		this.readJson();
+
+	}
 
 	public static InputStream getUrlArquivoPropriedades() {
 		return urlArquivoPropriedades;
