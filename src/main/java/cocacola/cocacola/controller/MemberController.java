@@ -142,7 +142,7 @@ public class MemberController {
 		log.info("Testando ");
 
 		gerarVideos();
-		//inserirElemento();
+		// inserirElemento();
 		// testarRestCoca();
 		/*
 		 * Concatenate conc = new Concatenate(); URL in =
@@ -154,7 +154,6 @@ public class MemberController {
 		 */
 
 		log.info("Olar");
-		
 
 	}
 
@@ -166,8 +165,6 @@ public class MemberController {
 
 	}
 
-	
-
 	public void inserirElemento() {
 
 		Calendar cal = Calendar.getInstance();
@@ -177,8 +174,8 @@ public class MemberController {
 		cocaManager.salvarUsuario(c);
 
 	}
-	
-	public void gerarVideos() throws Exception{
+
+	public void gerarVideos() throws Exception {
 		CocaCola coca = new CocaCola();
 		Calendar cal = Calendar.getInstance();
 		Date date = cal.getTime();
@@ -196,21 +193,27 @@ public class MemberController {
 					.getAsJsonArray();
 
 			for (JsonElement obj : jArray) {
-				
+
 				JsonElement jelem = gson.fromJson(obj, JsonElement.class);
 				JsonObject jobj = jelem.getAsJsonObject();
 				System.out.println(jobj.get("mon_pergunta_1"));
 				ClasseJsonCoca cocaJson = gson.fromJson(obj,
 						ClasseJsonCoca.class);
+				
+				cocaJson.setMonPergunta1("decarrao");
+				
+				cocaJson.setUsuGender("female");
+				
 				c.setJsonCoca(cocaJson);
 				VideoManager vm = new VideoManager();
 				vm.gerarVideos(c);
+				
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public void testarBuffered(InputStream in) {

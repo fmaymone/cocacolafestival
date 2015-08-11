@@ -57,23 +57,25 @@ public class VideoManager {
 		numCenas = prop.getNumeroCenas();
 		numCenas = 5;
 		// pra cada cena vou gerar o video
-		for (int i = 0; i < numCenas.intValue(); i++) {
+		for (int i = 0; i <= numCenas.intValue(); i++) {
 
 			try {
 				VideoGerado temp = new VideoGerado();
 				GeradorPosicoes g = new GeradorPosicoes(i + 1);
 				temp.setCocaCola(c);
-				temp.gerar(i);
+				temp.gerar(i+1);
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
+				System.out.println("Problema ao gerar o video " + i);
 				e.printStackTrace();
 			}
 
 		}
 
-		System.out.println("Olar. Fim");
+		
 		concatenarVideos();
+		
 		YouTubeManager ytm = new YouTubeManager();
 
 		ClassLoader classLoader = getClass().getClassLoader();
@@ -95,7 +97,7 @@ public class VideoManager {
 		InputStream videoPublicar = classLoader.getResourceAsStream("temp\\"
 				+ c.getJsonCoca().getUsuFaceId().toString() + "\\"
 				+ "video12345audio.mov");
-
+		/*
 		String s = ytm.publicarVideo(videoPublicar, c);
 
 		c.setUrlVideo(s);
@@ -105,7 +107,7 @@ public class VideoManager {
 		 CocaColaManager cm = new CocaColaManager(false);
 		 cm.enviarLinkUsuario(c);
 		 System.out.println("Video Enviado :" + c.toString());
-
+*/
 	}
 
 	public static Integer getNumCenas() {

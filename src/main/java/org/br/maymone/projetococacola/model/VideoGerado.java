@@ -71,7 +71,7 @@ public class VideoGerado {
 	public static void setVideo(IMediaReader video) {
 		VideoGerado.video = video;
 	}
-
+	
 	public static GeradorPosicoes getgPosicoes() {
 		return gPosicoes;
 	}

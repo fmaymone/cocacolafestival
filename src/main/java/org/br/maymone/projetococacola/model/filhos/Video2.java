@@ -151,6 +151,7 @@ public class Video2 extends VideoGerado {
 			int xAjuste = -34;
 			int yAjuste = -38;
 			if (indice < size) {
+			
 				dadosTemp = dados.get(indice);
 
 				System.out.println("tempo do video:" + now);

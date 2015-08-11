@@ -153,6 +153,7 @@ public class GeradorPosicoes {
 				
 				dadosTemp.setX(x/1000);
 				dadosTemp.setY(y/1000);
+				dadosTemp.setFrame(i);
 				
 				dadosImagem.add(dadosTemp);
 				System.out.println(dadosTemp.toString());

@@ -127,8 +127,8 @@ public class YouTubeManager {
 				.setDataStoreFactory(credentialStore).build();
 
 		// Build the local server and bind it to port 9000
-		// LocalServerReceiver localReceiver = new
-		// LocalServerReceiver.Builder().setPort(9091).build();
+		 LocalServerReceiver localReceiver = new
+		 LocalServerReceiver.Builder().setPort(9091).build();
 
 		// Authorize.
 		return new AuthorizationCodeInstalledApp(flow, localReceiver)
@@ -270,6 +270,8 @@ public class YouTubeManager {
 			VideoStatus status = new VideoStatus();
 			status.setPrivacyStatus("unlisted");
 			videoObjectDefiningMetadata.setStatus(status);
+			
+			
 
 			// We set a majority of the metadata with the VideoSnippet object.
 			VideoSnippet snippet = new VideoSnippet();
@@ -289,6 +291,7 @@ public class YouTubeManager {
 			tags.add("festival");
 			
 			snippet.setTags(tags);
+			
 
 			// Set completed snippet to the video object.
 			videoObjectDefiningMetadata.setSnippet(snippet);

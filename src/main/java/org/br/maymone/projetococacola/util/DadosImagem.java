@@ -17,6 +17,16 @@ public class DadosImagem implements Comparable<DadosImagem> {
 	private Long tempoInicial;
 	private Long tempoFinal;
 	
+	private Integer frame;
+	
+
+	public Integer getFrame() {
+		return frame;
+	}
+
+	public void setFrame(Integer frame) {
+		this.frame = frame;
+	}
 
 	public Long getTempoInicial() {
 		return tempoInicial;
