@@ -7,6 +7,14 @@ import com.google.gson.annotations.SerializedName;
 
 @Generated("org.jsonschema2pojo")
 public class ClasseJsonCoca {
+	@Override
+	public String toString() {
+		return "ClasseJsonCoca [monId=" + monId + ", monAmbiente="
+				+ monAmbiente + ", monPergunta1=" + monPergunta1
+				+ ", monPergunta3=" + monPergunta3 + ", monPergunta4="
+				+ monPergunta4 + ", monPergunta5=" + monPergunta5 + "]";
+	}
+
 	@SerializedName("mon_id")
 	@Expose
 	private Object monId;
@@ -82,6 +90,22 @@ public class ClasseJsonCoca {
 	@SerializedName("usu_avatar")
 	@Expose
 	private Object usuAvatar;
+	
+	@SerializedName("amigo1")
+	@Expose
+	private Object amigo1;
+	
+	@SerializedName("amigo2")
+	@Expose
+	private Object amigo2;
+	
+	@SerializedName("amigo3")
+	@Expose
+	private Object amigo3;
+	
+	@SerializedName("amigo4")
+	@Expose
+	private Object amigo4;
 
 	/**
 	* 
@@ -531,6 +555,38 @@ public class ClasseJsonCoca {
 	*/
 	public void setUsuAvatar(Object usuAvatar) {
 	this.usuAvatar = usuAvatar;
+	}
+
+	public Object getAmigo1() {
+		return amigo1;
+	}
+
+	public void setAmigo1(Object amigo1) {
+		this.amigo1 = amigo1;
+	}
+
+	public Object getAmigo2() {
+		return amigo2;
+	}
+
+	public void setAmigo2(Object amigo2) {
+		this.amigo2 = amigo2;
+	}
+
+	public Object getAmigo3() {
+		return amigo3;
+	}
+
+	public void setAmigo3(Object amigo3) {
+		this.amigo3 = amigo3;
+	}
+
+	public Object getAmigo4() {
+		return amigo4;
+	}
+
+	public void setAmigo4(Object amigo4) {
+		this.amigo4 = amigo4;
 	}
 	
 	
